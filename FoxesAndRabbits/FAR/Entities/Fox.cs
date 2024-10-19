@@ -8,7 +8,11 @@ namespace FoxesAndRabbits.FAR.Entities {
 
     public class Fox : Entity {
         
-        public Fox(GameInstance instance, int[] initialPos) : base(instance, EntityType.FOX, initialPos) {}
+        public Fox(GameInstance instance, int[] initialPos) : base(instance, EntityType.FOX, initialPos) {
+
+            this.foodLevel = 69;
+
+        }
 
     }
 

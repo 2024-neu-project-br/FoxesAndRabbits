@@ -11,7 +11,7 @@ namespace FoxesAndRabbits.FAR.Game {
         public string name;
         private int width, height;
 
-        Map map;
+        public Map map;
 
         public GameInstance(string name, int width, int height, bool isMapBlank) {
 
