@@ -10,6 +10,7 @@ namespace FoxesAndRabbits.FAR.Entities {
 
         public Rabbit(GameInstance instance, int[] initialPos) : base(instance, EntityType.RABBIT, initialPos) {
 
+            typeString = "RABBIT";
             maxFoodLevel = 5;
             foodLevel = maxFoodLevel;
 
@@ -17,7 +18,7 @@ namespace FoxesAndRabbits.FAR.Entities {
 
         public override void IndividualUpdate() {
 
-            bool canUwU = foodLevel == maxFoodLevel || instance.map.GetEntitiesAround(X, Y).Count == 0;
+            bool canUwU = foodLevel == maxFoodLevel || instance.map.GetEntitiesAround(X, Y).Count == 0; // huh?
 
             
         

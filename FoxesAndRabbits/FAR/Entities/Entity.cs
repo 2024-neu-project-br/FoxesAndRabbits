@@ -14,6 +14,7 @@ namespace FoxesAndRabbits.FAR {
         public GameInstance instance;
 
         public EntityType TYPE;
+        public string typeString = "none";
         private int x, y, newX, newY;
 
         public int X {
