@@ -92,7 +92,7 @@ function drawMap(mapDict){
                 let entityData = entity.split("@-@");
                 let entityType = entityData[0];
                 let entityPos = entityData[1].split(" ");
-                if(entityPos[0] == i && entityPos[1] == j) block.textContent = entityEmojis[entityType];
+                if(entityPos[0]-1 == i && entityPos[1]-1 == j) block.textContent = entityEmojis[entityType];
             });
             blocks.append(block);
         }
