@@ -100,12 +100,16 @@ namespace FoxesAndRabbits.FAR {
                 for (int y = 0; y < HEIGHT; y++)
                     if (grassMap[x, y] < 3) grassMapNew[x, y]++;
 
+            foreach (Entity e in entities) e.Update();
+
 
         }
 
         public void Tick() {
 
             grassMap = grassMapNew;
+
+            foreach (Entity e in entities) e.Tick();
 
         }
 

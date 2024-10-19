@@ -30,9 +30,9 @@ namespace FoxesAndRabbits.FAR.Game {
 
         }
 
-        public void Tick() {}
-
         public void Update() {}
+
+        public void Tick() {}
 
         public byte[] State() {
 
