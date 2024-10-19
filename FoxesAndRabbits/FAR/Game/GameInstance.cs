@@ -19,14 +19,14 @@ namespace FoxesAndRabbits.FAR.Game {
             this.width = width;
             this.height = height;
 
-            map = new Map(/* gugugaga i will tickle your balls nyom nyom */);
+            map = new Map(this, width, height);
             if (!isMapBlank) InitRandom();
 
         }
 
         public void InitRandom() {
 
-
+            
 
         }
 

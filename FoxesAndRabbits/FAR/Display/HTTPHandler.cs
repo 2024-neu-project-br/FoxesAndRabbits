@@ -131,8 +131,8 @@ namespace FoxesAndRabbits.FAR.Display {
 
                 }
 
-                instance.Tick();
                 instance.Update();
+                instance.Tick();
 
                 response = new Response(200, instance.State());
                 con.Send(response.Build());

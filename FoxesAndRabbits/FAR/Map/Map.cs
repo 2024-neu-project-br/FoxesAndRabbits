@@ -40,12 +40,72 @@ namespace FoxesAndRabbits.FAR {
 
         }
 
-        public List<Entity> GetEntitiesAround(int x, int y) {
+        public List<Entity> GetEntitiesAround(int x, int y) => GetEntitiesAround(x, y, 1);
+
+        public List<Entity> GetEntitiesAround(int x, int y, int radius) {
 
             List<Entity> nearbyEntities = new List<Entity>();
 
+            x = GetWrappedX(x);
+            y = GetWrappedY(y);
+
+            for (int dx = -1 * radius; dx <= 1 * radius; dx++)
+                for (int dy = -1 * radius; dy <= 1 * radius; dy++) {
+
+                    if (dx == 0 && dy == 0) continue;
+
+                    Entity? e = GetEntityAt(GetWrappedX(x + dx), GetWrappedY(y + dy));
+                    if (e == null) continue;
+
+                    nearbyEntities.Add(e);
+
+                }
 
             return nearbyEntities;
+
+        }
+
+        public int[] GetRandomEmptyCellAround(int x, int y, int radius) {
+
+            /*
+            
+            
+                !!!!!!!ACHTUNG BITTE!!!!!!!
+            
+                Warning: this can get stuck in an infinite loop if the entity cannot find an empty spot around itself
+            
+            
+            */
+
+            Random random = new Random();
+
+            x = GetWrappedX(x);
+            y = GetWrappedX(y);
+
+            int RandomRange() => (int) Math.Ceiling(radius * random.NextDouble()) * random.NextDouble() > 0.5 ? 1 : -1;
+
+            int candidateX = GetWrappedX(x + RandomRange());
+            int candidateY = GetWrappedY(y + RandomRange());
+
+            if (GetEntityAt(candidateX, candidateY) != null) return GetRandomEmptyCellAround(x, y, radius);
+            return [x, y];
+
+        }
+
+        public void AddNewEntity(Entity entity) => entitiesToBeAdded.Add(entity);
+
+        public void Update() {
+
+            for (int x = 0; x < WIDTH; x++)
+                for (int y = 0; y < HEIGHT; y++)
+                    if (grassMap[x, y] < 3) grassMapNew[x, y]++;
+
+
+        }
+
+        public void Tick() {
+
+            grassMap = grassMapNew;
 
         }
 
