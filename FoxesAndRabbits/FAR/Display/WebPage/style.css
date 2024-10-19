@@ -90,3 +90,15 @@ main{
 #game .line .grass-3{
     background-color: darkgreen;
 }
+
+@media screen and (max-width: 1060px) {
+    #inputs div.row{
+        flex-direction: column;
+    }
+
+    #inputs{
+        gap: .25em;
+        padding: 0 .25em;
+        width: calc(100% - .5em);
+    }
+}
