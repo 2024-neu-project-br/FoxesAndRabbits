@@ -1,4 +1,4 @@
-var currentInstance = "<empty>";
+let currentInstance = "<empty>";
 
 function newInstance(name, width, height, isMapBlank) {
 
@@ -13,7 +13,7 @@ function newInstance(name, width, height, isMapBlank) {
 
         if (response.status == 200) {
 
-            var gameState = await response.text();
+            return await response.text();
 
             /*
             
@@ -23,7 +23,9 @@ function newInstance(name, width, height, isMapBlank) {
 
         }
 
-        if (response.status == 403) {
+        else {
+
+            return response.statusText;
 
             /*
             
@@ -48,11 +50,23 @@ function tick() { // this function is run by the client, meaning here in javascr
 
         if (response.status == 200) {
 
-            var gameState = await response.text();
+            return await response.text();
 
             /*
             
                 gameState is the variable that contains all the information that has to/can be rendered
+            
+            */
+
+        }
+
+        else {
+
+            return response.statusText;
+
+            /*
+            
+                if this is triggered it means the user tried creating an instance with a name that already exists
             
             */
 
