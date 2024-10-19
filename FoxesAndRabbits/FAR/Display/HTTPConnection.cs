@@ -34,7 +34,7 @@ namespace FoxesAndRabbits.FAR.Display {
                 byte[] data = new byte[socket.ReceiveBufferSize]; // go fuck yourself
                 int bytesReceived = socket.Receive(data);
 
-                Request rq = new Request(data);
+                Request rq = new(data);
                 Console.WriteLine(rq.headerString);
                 handler.Handle(rq);
 

@@ -2,9 +2,9 @@
 using System.Net;
 using FoxesAndRabbits.FAR.Display;
 
-byte[] a = Array.Empty<byte>();
+byte[] a = [];
 Console.WriteLine(a.Length);
 
 Console.WriteLine("Hello, World!");
 
-HTTPServer server = new HTTPServer(IPAddress.Loopback, 4060);
+HTTPServer server = new(IPAddress.Loopback, 4060);

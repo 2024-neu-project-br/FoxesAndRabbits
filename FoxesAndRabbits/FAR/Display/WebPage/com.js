@@ -4,10 +4,10 @@ function newInstance(name, width, height, isMapBlank) {
 
     currentInstance = name;
 
-    fetch("/newInstance", {
+    fetch("http://127.0.0.1:4060/newInstance", {
         
         method: "POST",
-        body: `name=${currentInstance}\nwidth=${width}\nheight=${height}\nisMapBlank=${isMapBlank ? "true" : "false"}`
+        body: `name=${currentInstance}\nwidth=${width}\nheight=${height}\nisMapBlank=${isMapBlank}`
     
     }).then(async (response) => {
 

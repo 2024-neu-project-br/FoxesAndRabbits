@@ -77,7 +77,7 @@ namespace FoxesAndRabbits.FAR {
             
             */
 
-            Random random = new Random();
+            Random random = new();
 
             x = GetWrappedX(x);
             y = GetWrappedX(y);

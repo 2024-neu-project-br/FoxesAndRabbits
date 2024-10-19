@@ -2,6 +2,8 @@
 const game = document.getElementById("game");
 const tickInterval = !document.getElementById("tickInterval").value ? 10 : document.getElementById("tickInterval").value;
 const gameInstanceName = !document.getElementById("gameInstanceName").value ? "FAR" : document.getElementById("gameInstanceName").value;
+const mapW = !document.getElementById("mapW").value ? 10 : document.getElementById("mapW").value;
+const mapH = !document.getElementById("mapH").value ? 10 : document.getElementById("mapH").value;
 const pauseGame = document.getElementById("pauseGame");
 const newGame = document.getElementById("newGame");
 const addFox = document.getElementById("addFox");
@@ -37,7 +39,7 @@ newGame.onclick = () => {
     // Disables the new game button until the game gets paused
     newGame.toggleAttribute("disabled");
     
-    handleResponse(newInstance());
+    handleResponse(newInstance(gameInstanceName, mapW, mapH, true));
 
     /* THIS IS FOR TESTING PURPOSES ONLY, IT WILL BE REMOVED IN THE FINAL RELEASE */
     console.log(`New game started!\nGame started: ${getAttr(game, "started")}\nGame playing: ${getAttr(game, "playing")}`);
