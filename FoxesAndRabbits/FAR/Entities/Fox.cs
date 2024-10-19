@@ -10,7 +10,16 @@ namespace FoxesAndRabbits.FAR.Entities {
         
         public Fox(GameInstance instance, int[] initialPos) : base(instance, EntityType.FOX, initialPos) {
 
-            this.foodLevel = 69;
+            maxFoodLevel = 10;
+            foodLevel = maxFoodLevel;
+
+        }
+
+        public override void IndividualUpdate() {
+
+            bool canPounce = foodLevel == 10 || instance.map.GetEntitiesAround(X, Y).Count == 0;
+
+            // your stuff goes here zraphy
 
         }
 

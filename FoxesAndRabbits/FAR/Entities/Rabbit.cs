@@ -8,8 +8,24 @@ namespace FoxesAndRabbits.FAR.Entities {
 
     public class Rabbit : Entity {
 
-        public Rabbit(GameInstance instance, int[] initialPos) : base(instance, EntityType.RABBIT, initialPos) {}
+        public Rabbit(GameInstance instance, int[] initialPos) : base(instance, EntityType.RABBIT, initialPos) {
+
+            maxFoodLevel = 5;
+            foodLevel = maxFoodLevel;
+
+        }
+
+        public override void IndividualUpdate() {
+
+            /*
+            
+                rabbits logic goes here
+            
+            
+            */
         
+        }
+
     }
 
 }
