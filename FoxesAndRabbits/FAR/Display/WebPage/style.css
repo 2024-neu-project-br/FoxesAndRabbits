@@ -15,6 +15,10 @@ main{
     width: 100%;
     height: 90%;
     background-color: #333;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
 }
 
 #inputs{
@@ -56,4 +60,26 @@ main{
 
 #inputs div button{
     cursor: pointer;
+}
+
+#game .line{
+    display: flex;
+    flex-direction: row;
+}
+
+#game .line .grass-1, #game .line .grass-2, #game .line .grass-3{
+    width: 1.5em;
+    height: 1.5em;
+}
+
+#game .line .grass-1{
+    background-color: lightgreen;
+}
+
+#game .line .grass-2{
+    background-color: green;
+}
+
+#game .line .grass-3{
+    background-color: darkgreen;
 }

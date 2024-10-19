@@ -68,4 +68,32 @@ function parseMap(mapString){
 /* This doesn't do anything yet, just console.logs the response, later it will actually handle the response it gets */
 function handleResponse(response){
     console.log(response);
+    let exampleString = "startOfExample\n\nGRASSMAP\n2;3;3;3;2;3;3;3;1;2;3;3;1\n2;3;3;3;3;2;2;3;3;2;3;3;3\n3;1;2;3;3;3;2;2;3;3;3;2;2\n3;3;2;3;3;3;2;1;3;2;3;3;3\n3;3;3;3;1;2;3;3;3;3;1;3;2\n2;3;1;1;2;3;3;3;3;3;3;3;3\n3;3;3;3;1;1;3;3;2;3;3;2;1\n\nMOBMAP\nFOX@-@5 2\nFOX@-@3 6\nFOX@-@7 9\nFOX@-@10 5\nRABBIT@-@2 2\nRABBIT@-@7 7\nRABBIT@-@9 6\nRABBIT@-@2 6\n\nendOfExample";
+    drawMap(parseMap(exampleString));
+}
+
+const entityEmojis = {
+    FOX: "🦊",
+    RABBIT: "🐰",
+}
+
+/* This function "draws" the map */
+function drawMap(mapDict){
+    game.innerHTML = "";
+    for (let i = 0; i < mapDict.grassMap.length; i++) {
+        let blocks = document.createElement("div")
+        blocks.classList.add("line");
+        for (let j = 0; j < mapDict.grassMap[i].split(";").length; j++) {
+            let block = document.createElement("div");
+            block.classList.add(`grass-${mapDict.grassMap[i].split(";")[j]}`);
+            mapDict.mobMap.forEach(entity => {
+                let entityData = entity.split("@-@");
+                let entityType = entityData[0];
+                let entityPos = entityData[1].split(" ");
+                if(entityPos[0] == i && entityPos[1] == j) block.textContent = entityEmojis[entityType];
+            });
+            blocks.append(block);
+        }
+        game.append(blocks);
+    }
 }
