@@ -1,0 +1,59 @@
+html, body, main{
+    width: 100vw;
+    height: 100vh;
+    margin: 0;
+    padding: 0;
+}
+
+main{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+#game{
+    width: 100%;
+    height: 90%;
+    background-color: #333;
+}
+
+#inputs{
+    width: calc(100% - 2em);
+    height: 10%;
+    background-color: #222;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1em;
+    padding: 0 1em;
+}
+
+#inputs div{
+    width: 50%;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    gap: 1em;
+}
+
+#inputs div:first-child{
+    justify-content: flex-start;
+}
+
+#inputs div:last-child{
+    justify-content: flex-end;
+}
+
+#inputs div input, #inputs div button{
+    padding: 1em;
+    border: 0;
+    border-radius: .25em;
+    width: 100%;
+    background-color: #ffffff75;
+}
+
+#inputs div button{
+    cursor: pointer;
+}
