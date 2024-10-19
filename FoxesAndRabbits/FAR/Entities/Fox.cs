@@ -17,7 +17,7 @@ namespace FoxesAndRabbits.FAR.Entities {
 
         public override void IndividualUpdate() {
 
-            bool canPounce = foodLevel == 10 || instance.map.GetEntitiesAround(X, Y).Count == 0;
+            bool canPounce = foodLevel == maxFoodLevel || instance.map.GetEntitiesAround(X, Y).Count == 0;
 
             // your stuff goes here zraphy
 
