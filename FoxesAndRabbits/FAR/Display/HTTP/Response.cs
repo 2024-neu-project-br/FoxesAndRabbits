@@ -114,6 +114,7 @@ namespace FoxesAndRabbits.FAR.Display.HTTP {
             string headerString = $"HTTP/1.1 {statusCode} {statusCodeName}\r\n" +
                             $"Content-Type: {contentType}\r\n" +
                             $"Content-Length: {contentLength}\r\n" +
+                            "Access-Control-Allow-Origin: *" +
                             "Connection: close\r\n\r\n";
 
             byte[] header = Encoding.UTF8.GetBytes(headerString);
