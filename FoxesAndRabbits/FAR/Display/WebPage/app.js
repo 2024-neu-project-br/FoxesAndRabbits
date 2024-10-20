@@ -39,7 +39,7 @@ newGame.onclick = () => {
     // Disables the new game button until the game gets paused
     newGame.toggleAttribute("disabled");
     
-    handleResponse(newInstance(gameInstanceName, mapW, mapH, true));
+    handleResponse(newInstance(gameInstanceName, mapW, mapH, false));
 
     /* THIS IS FOR TESTING PURPOSES ONLY, IT WILL BE REMOVED IN THE FINAL RELEASE */
     console.log(`New game started!\nGame started: ${getAttr(game, "started")}\nGame playing: ${getAttr(game, "playing")}`);

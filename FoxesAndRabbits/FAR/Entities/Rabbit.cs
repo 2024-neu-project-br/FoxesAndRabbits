@@ -13,12 +13,13 @@ namespace FoxesAndRabbits.FAR.Entities {
             typeString = "RABBIT";
             maxFoodLevel = 5;
             foodLevel = maxFoodLevel;
+            foodLevelNew = foodLevel; // huh? (this is probably some initialization stuff, im not entirely sure why im adding this, skibidi)
 
         }
 
         public override void IndividualUpdate() {
 
-            bool canUwU = foodLevel == maxFoodLevel || instance.map.GetEntitiesAround(X, Y).Count == 0; // huh?
+            bool canUwU = foodLevel == maxFoodLevel || instance.map.GetEntitiesAround(X, Y).Count == 0; // huh? rabbits cant pounce according to the game rules, im not sure what you did here
 
             
         

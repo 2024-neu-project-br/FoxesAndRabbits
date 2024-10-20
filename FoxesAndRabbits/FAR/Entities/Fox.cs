@@ -13,6 +13,7 @@ namespace FoxesAndRabbits.FAR.Entities {
             typeString = "FOX";
             maxFoodLevel = 10;
             foodLevel = maxFoodLevel;
+            foodLevelNew = foodLevel; // huh? (this is probably some initialization stuff, im not entirely sure why im adding this, skibidi)
 
         }
 

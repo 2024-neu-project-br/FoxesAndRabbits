@@ -26,6 +26,7 @@ namespace FoxesAndRabbits.FAR {
             HEIGHT = height;
 
             grassMap = new int[width, height];
+            for (int x = 0; x < width; x++) for (int y = 0; y < height; y++) grassMap[x, y] = 3;
             grassMapNew = grassMap;
 
         }
@@ -108,6 +109,7 @@ namespace FoxesAndRabbits.FAR {
         public void Tick() {
 
             grassMap = grassMapNew;
+            entities.AddRange(entitiesToBeAdded);
 
             foreach (Entity e in entities) e.Tick();
 
