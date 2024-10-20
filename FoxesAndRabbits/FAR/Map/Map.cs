@@ -16,7 +16,8 @@ namespace FoxesAndRabbits.FAR {
         public int[,] grassMap, grassMapNew;
 
         public List<Entity> entities = new List<Entity>(),
-                            entitiesToBeAdded = new List<Entity>();
+                            entitiesToBeAdded = new List<Entity>(),
+                            entitiesToBeRemoved = new List<Entity>();
 
         public Map(GameInstance instance, int width, int height) {
 
@@ -110,6 +111,8 @@ namespace FoxesAndRabbits.FAR {
 
             grassMap = grassMapNew;
             entities.AddRange(entitiesToBeAdded);
+            foreach (Entity e in entitiesToBeRemoved) entities.Remove(e);
+            entitiesToBeRemoved.Clear();
 
             foreach (Entity e in entities) e.Tick();
 

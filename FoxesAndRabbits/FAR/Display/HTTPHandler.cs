@@ -1,4 +1,5 @@
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
@@ -57,7 +58,18 @@ namespace FoxesAndRabbits.FAR.Display {
         private void HandlePOST(Request rq) {
 
             Response response;
-            string name = rq.BODY.Split("=")[1];
+
+            string[] sparamz = rq.BODY.Split("\n");
+            Dictionary<string, string> paramz = new Dictionary<string, string>();
+
+            foreach (string p in sparamz) {
+
+                string[] sparam = p.Split("=");
+                paramz.Add(sparam[0], sparam[1]); // this is not foolproof, gyatt damn
+
+            }
+
+            string name = paramz["name"];
 
             if (name == "<empty>") {
 
@@ -83,16 +95,6 @@ namespace FoxesAndRabbits.FAR.Display {
                 bool isMapBlank;
 
                 try {
-
-                    string[] sparamz = rq.BODY.Split("\n");
-                    Dictionary<string, string> paramz = new Dictionary<string, string>();
-
-                    foreach (string p in sparamz) {
-
-                        string[] sparam = p.Split("=");
-                        paramz.Add(sparam[0], sparam[1]);
-
-                    }
 
                     width = int.Parse(paramz["width"]);
                     height = int.Parse(paramz["height"]);

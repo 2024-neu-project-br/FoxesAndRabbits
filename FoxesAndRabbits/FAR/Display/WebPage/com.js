@@ -44,7 +44,7 @@ function tick() { // this function is run by the client, meaning here in javascr
     fetch("http://127.0.0.1:4060/tick", {
         
         method: "POST",
-        body: `name=${currentInstance}`
+        body: `name=${currentInstance}\ndummy=yes`
     
     }).then(async (response) => {
 

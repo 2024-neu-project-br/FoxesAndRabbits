@@ -67,7 +67,7 @@ namespace FoxesAndRabbits.FAR {
 
             hasMated = false;
             
-            if (hasDied) instance.map.entities.Remove(this);
+            if (hasDied) instance.map.entitiesToBeRemoved.Add(this);
 
         }
 
