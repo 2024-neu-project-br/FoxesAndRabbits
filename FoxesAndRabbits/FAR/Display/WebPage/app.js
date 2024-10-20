@@ -15,27 +15,6 @@ let tickSetInterval;
 // There's no instance yet, so you can't do much ¯\_(ツ)_/¯
 [pauseGame, addFox, addRabbit].forEach(element => element.toggleAttribute("disabled"));
 
-pauseGame.onclick = () => {
-    // This checks whether the game is playing or not and toggles that attribute based on that
-    if(getAttr(game, "playing")){
-        game.removeAttribute("playing", "");
-        clearInterval(tickSetInterval);
-    }
-    else{
-        game.setAttribute("playing", "");
-        tickSetInterval = setInterval(()=>handleResponse(tick()), tickInterval);
-    }
-
-    // Updating the buttons
-    [newGameToggle, addFox, addRabbit].forEach(element => element.toggleAttribute("disabled"))
-    pauseGame.innerText = getAttr(game, "playing") ? "Pause game" : "Unpause game";
-
-    handleResponse(toggle());
-
-    /* THIS IS FOR TESTING PURPOSES ONLY, IT WILL BE REMOVED IN THE FINAL RELEASE */
-    console.log(`Game paused!\nGame started: ${getAttr(game, "started")}\nGame playing: ${getAttr(game, "playing")}`);
-}
-
 newGameToggle.onclick = () => {
     newGameDialog.showModal()
 }
@@ -60,14 +39,32 @@ newGame.onclick = () => {
     console.log(`New game started!\nGame started: ${getAttr(game, "started")}\nGame playing: ${getAttr(game, "playing")}`);
 }
 
+pauseGame.onclick = () => {
+    // This checks whether the game is playing or not and toggles that attribute based on that
+    if(getAttr(game, "playing")){
+        game.removeAttribute("playing", "");
+        clearInterval(tickSetInterval);
+    } else{
+        game.setAttribute("playing", "");
+        tickSetInterval = setInterval(()=>handleResponse(tick()), tickInterval);
+    }
+
+    // Updating the buttons
+    [newGameToggle, addFox, addRabbit].forEach(element => element.toggleAttribute("disabled"))
+    pauseGame.innerText = getAttr(game, "playing") ? "Pause game" : "Unpause game";
+
+    handleResponse(toggle());
+
+    /* THIS IS FOR TESTING PURPOSES ONLY, IT WILL BE REMOVED IN THE FINAL RELEASE */
+    console.log(`Game paused!\nGame started: ${getAttr(game, "started")}\nGame playing: ${getAttr(game, "playing")}`);
+}
+
 // Spawns an entity on the map upon clicking the button
 addFox.onclick = () => handleResponse(command("+E")/* Fox */)
 addRabbit.onclick = () => handleResponse(command("+E")/* Rabbit */)
 
 /* This function just helps shortening the code a bit */
-function getAttr(element, attribute){
-    return element.attributes.getNamedItem(attribute) != null;
-}
+getAttr = (element, attribute) => element.attributes.getNamedItem(attribute) != null;
 
 /* This function parses a map that got returned from a successful request */
 function parseMap(mapString){
