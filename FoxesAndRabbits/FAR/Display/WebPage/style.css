@@ -1,3 +1,9 @@
+:root{
+    --inputs-bg: #111;
+    --game-bg: #222;
+    --input-bg: #bbb;
+}
+
 html, body, main{
     width: 100vw;
     height: 100vh;
@@ -13,8 +19,8 @@ main{
 
 #game{
     width: 100%;
-    height: 60%;
-    background-color: #333;
+    height: 70%;
+    background-color: var(--game-bg);
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -22,54 +28,64 @@ main{
 }
 
 #inputs{
-    width: calc(100% - 2em);
-    height: 40%;
-    background-color: #222;
+    width: 50%;
+    height: 30%;
+    background-color: var(--inputs-bg);
     display: flex;
     flex-direction: row;
-    align-items: center;
-    justify-content: space-between;
-    gap: 1em;
-    padding: 0 1em;
-}
-
-#inputs div{
-    width: 50%;
-    display: flex;
     align-items: center;
     justify-content: center;
     gap: 1em;
+    padding: 0 25%;
 }
 
-#inputs div.row{
-    flex-direction: row;
-}
-
-#inputs div.col{
+dialog[open]{
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 100%;
+    height: 100%;
+    background-color: var(--inputs-bg);
+    display: flex;
     flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 1em;
+    padding: 10%;
+    margin: 0;
+    border: 0;
 }
 
-#inputs div:first-child{
-    justify-content: flex-start;
+dialog{
+    display: none;
 }
 
-#inputs div:last-child{
-    justify-content: flex-end;
-}
-
-#inputs div input, #inputs div button{
+dialog input, #inputs button, dialog button{
     padding: 1em;
     border: 0;
     border-radius: .25em;
-    width: 80%;
-    background-color: #ffffff75;
+    background-color: var(--input-bg);
 }
 
-#inputs div button{
+dialog h1{
+    color: var(--input-bg);
+    font-family: sans-serif;
+}
+
+dialog input, dialog button{
+    width: 25%;
+}
+
+#inputs button{
+    width: 80%;
+}
+
+#inputs button, dialog button{
     cursor: pointer;
 }
 
-#inputs div button:disabled{
+#inputs button:disabled{
     cursor: default;
 }
 
@@ -93,16 +109,4 @@ main{
 
 #game .line .grass-3{
     background-color: darkgreen;
-}
-
-@media screen and (max-width: 1060px) {
-    #inputs div.row{
-        flex-direction: column;
-    }
-
-    #inputs{
-        gap: .25em;
-        padding: 0 .25em;
-        width: calc(100% - .5em);
-    }
 }

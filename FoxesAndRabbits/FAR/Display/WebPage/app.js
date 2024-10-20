@@ -8,6 +8,8 @@ const pauseGame = document.getElementById("pauseGame");
 const newGame = document.getElementById("newGame");
 const addFox = document.getElementById("addFox");
 const addRabbit = document.getElementById("addRabbit");
+const newGameDialog = document.getElementById("newGameDialog");
+const newGameToggle = document.getElementById("newGameToggle");
 let tickSetInterval;
 
 // There's no instance yet, so you can't do much ¯\_(ツ)_/¯
@@ -25,26 +27,22 @@ pauseGame.onclick = () => {
     }
 
     // Updating the buttons
-    [newGame, addFox, addRabbit].forEach(element => element.toggleAttribute("disabled"))
+    [newGameToggle, addFox, addRabbit].forEach(element => element.toggleAttribute("disabled"))
     pauseGame.innerText = getAttr(game, "playing") ? "Pause game" : "Unpause game";
 
-    handleResponse(command("T"));
+    handleResponse(toggle());
 
     /* THIS IS FOR TESTING PURPOSES ONLY, IT WILL BE REMOVED IN THE FINAL RELEASE */
     console.log(`Game paused!\nGame started: ${getAttr(game, "started")}\nGame playing: ${getAttr(game, "playing")}`);
 }
 
+newGameToggle.onclick = () => {
+    newGameDialog.showModal()
+}
+
 newGame.onclick = () => {
     // Checks if these buttons are disabled or not, enables them if yes
-    [
-        pauseGame, 
-        addFox, 
-        addRabbit, 
-        document.getElementById("tickInterval"), 
-        document.getElementById("gameInstanceName"),
-        document.getElementById("mapW"),
-        document.getElementById("mapH")
-    ].forEach(element => {if(getAttr(element, "disabled")) element.removeAttribute("disabled");});
+    [pauseGame, addFox, addRabbit].forEach(element => {if(getAttr(element, "disabled")) element.removeAttribute("disabled");});
 
     // Setting basic attributes and updating the pause button
     game.setAttribute("started", "");
@@ -52,8 +50,9 @@ newGame.onclick = () => {
     pauseGame.innerText = getAttr(game, "playing") ? "Pause game" : "Unpause game";
 
     // Disables the new game button until the game gets paused
-    newGame.toggleAttribute("disabled");
-    
+    newGameToggle.toggleAttribute("disabled");
+    newGameDialog.close()
+
     handleResponse(newInstance(gameInstanceName, mapW, mapH, false));
     tickSetInterval = setInterval(()=>handleResponse(tick()), tickInterval);
 
