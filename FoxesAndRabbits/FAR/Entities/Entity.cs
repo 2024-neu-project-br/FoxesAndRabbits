@@ -31,7 +31,7 @@ namespace FoxesAndRabbits.FAR {
         }
 
         public int foodLevel = 0, foodLevelNew = 0, maxFoodLevel = 0;
-        public bool hasMated = false, hasDied = false;
+        public bool hasMated = false;
 
         public Entity(GameInstance instance, EntityType type, int[] initialPos) {
 
@@ -53,7 +53,7 @@ namespace FoxesAndRabbits.FAR {
             IndividualUpdate();
 
             // stuff after individual updates
-            if (foodLevelNew <= 0) hasDied = true;
+            if (foodLevelNew <= 0) instance.map.entitiesToBeRemoved.Add(this);
 
         }
 
@@ -66,8 +66,6 @@ namespace FoxesAndRabbits.FAR {
             y = newY;
 
             hasMated = false;
-            
-            if (hasDied) instance.map.entitiesToBeRemoved.Add(this);
 
         }
 

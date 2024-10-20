@@ -82,7 +82,7 @@ namespace FoxesAndRabbits.FAR {
             Random random = new Random();
 
             x = GetWrappedX(x);
-            y = GetWrappedX(y);
+            y = GetWrappedY(y);
 
             int RandomRange() => (int) Math.Ceiling(radius * random.NextDouble()) * random.NextDouble() > 0.5 ? 1 : -1;
 
@@ -90,7 +90,7 @@ namespace FoxesAndRabbits.FAR {
             int candidateY = GetWrappedY(y + RandomRange());
 
             if (GetEntityAt(candidateX, candidateY) != null) return GetRandomEmptyCellAround(x, y, radius);
-            return [x, y];
+            return [candidateX, candidateY];
 
         }
 
@@ -110,8 +110,11 @@ namespace FoxesAndRabbits.FAR {
         public void Tick() {
 
             grassMap = grassMapNew;
+
             entities.AddRange(entitiesToBeAdded);
             foreach (Entity e in entitiesToBeRemoved) entities.Remove(e);
+
+            entitiesToBeAdded.Clear();
             entitiesToBeRemoved.Clear();
 
             foreach (Entity e in entities) e.Tick();

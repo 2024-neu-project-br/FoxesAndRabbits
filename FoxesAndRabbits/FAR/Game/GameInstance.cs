@@ -54,7 +54,7 @@ namespace FoxesAndRabbits.FAR.Game {
             }
 
             state += "\nMOBMAP\n";
-            foreach (Entity e in map.entities) state += e.typeString + "@-@" + e.X + " " + e.Y + "\n";
+            foreach (Entity e in map.entities) state += e.typeString + "@-@" + e.X + " " + e.Y + "@-@" + e.foodLevel + "\n";
 
             //Console.WriteLine("creating new bitch:\n" + state);
 
