@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text;
 using System.Threading.Tasks;
 using FoxesAndRabbits.FAR.Display;
 
@@ -30,13 +31,26 @@ namespace FoxesAndRabbits.FAR.Game {
 
         }
 
-        public void Update() {}
+        public void Update() => map.Update();
 
-        public void Tick() {}
+        public void Tick() => map.Tick();
 
         public byte[] State() {
 
-            return new byte[2];
+            string state = "GRASSMAP\n";
+            for (int y = 0; y < height; y++) {
+
+                string[] row = new string[width];
+                for (int x = 0; x < width; x++) row[x] = map.grassMap[x, y].ToString();
+
+                state += string.Join(";", row);
+
+            }
+
+            state += "\nMOBMAP\n";
+            foreach (Entity e in map.entities) state += e.typeString + "@-@" + e.X + " " + e.Y + "\n";
+
+            return Encoding.UTF8.GetBytes(state);
 
         }
 

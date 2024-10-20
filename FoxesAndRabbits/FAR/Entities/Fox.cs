@@ -10,6 +10,7 @@ namespace FoxesAndRabbits.FAR.Entities {
         
         public Fox(GameInstance instance, int[] initialPos) : base(instance, EntityType.FOX, initialPos) {
 
+            typeString = "FOX";
             maxFoodLevel = 10;
             foodLevel = maxFoodLevel;
 
