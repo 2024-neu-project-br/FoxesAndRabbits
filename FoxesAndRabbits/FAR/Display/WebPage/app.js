@@ -1,6 +1,6 @@
 /* --- Define basic variables and values --- */
 const game = document.getElementById("game");
-const tickInterval = !document.getElementById("tickInterval").value ? 10 : document.getElementById("tickInterval").value;
+const tickInterval = !document.getElementById("tickInterval").value ? 1000 : document.getElementById("tickInterval").value;
 const gameInstanceName = !document.getElementById("gameInstanceName").value ? "FAR" : document.getElementById("gameInstanceName").value;
 const mapW = !document.getElementById("mapW").value ? 10 : document.getElementById("mapW").value;
 const mapH = !document.getElementById("mapH").value ? 10 : document.getElementById("mapH").value;
@@ -8,14 +8,21 @@ const pauseGame = document.getElementById("pauseGame");
 const newGame = document.getElementById("newGame");
 const addFox = document.getElementById("addFox");
 const addRabbit = document.getElementById("addRabbit");
+let tickSetInterval;
 
 // There's no instance yet, so you can't do much ¯\_(ツ)_/¯
 [pauseGame, addFox, addRabbit].forEach(element => element.toggleAttribute("disabled"));
 
 pauseGame.onclick = () => {
     // This checks whether the game is playing or not and toggles that attribute based on that
-    if(getAttr(game, "playing")) game.removeAttribute("playing", "");
-    else game.setAttribute("playing", "");
+    if(getAttr(game, "playing")){
+        game.removeAttribute("playing", "");
+        clearInterval(tickSetInterval);
+    }
+    else{
+        game.setAttribute("playing", "");
+        tickSetInterval = setInterval(()=>handleResponse(tick()), tickInterval);
+    }
 
     // Updating the buttons
     [newGame, addFox, addRabbit].forEach(element => element.toggleAttribute("disabled"))
@@ -29,7 +36,15 @@ pauseGame.onclick = () => {
 
 newGame.onclick = () => {
     // Checks if these buttons are disabled or not, enables them if yes
-    [pauseGame, addFox, addRabbit].forEach(element => {if(getAttr(element, "disabled")) element.removeAttribute("disabled");});
+    [
+        pauseGame, 
+        addFox, 
+        addRabbit, 
+        document.getElementById("tickInterval"), 
+        document.getElementById("gameInstanceName"),
+        document.getElementById("mapW"),
+        document.getElementById("mapH")
+    ].forEach(element => {if(getAttr(element, "disabled")) element.removeAttribute("disabled");});
 
     // Setting basic attributes and updating the pause button
     game.setAttribute("started", "");
@@ -40,6 +55,7 @@ newGame.onclick = () => {
     newGame.toggleAttribute("disabled");
     
     handleResponse(newInstance(gameInstanceName, mapW, mapH, false));
+    tickSetInterval = setInterval(()=>handleResponse(tick()), tickInterval);
 
     /* THIS IS FOR TESTING PURPOSES ONLY, IT WILL BE REMOVED IN THE FINAL RELEASE */
     console.log(`New game started!\nGame started: ${getAttr(game, "started")}\nGame playing: ${getAttr(game, "playing")}`);

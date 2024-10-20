@@ -41,7 +41,7 @@ function newInstance(name, width, height, isMapBlank) {
 
 function tick() { // this function is run by the client, meaning here in javascript at a rate defined by the user themselves, when the function is run, it tells the server to update the current state of the game to the new one and it responds with that
 
-    fetch("/tick", {
+    fetch("http://127.0.0.1:4060/tick", {
         
         method: "POST",
         body: `name=${currentInstance}`
@@ -123,7 +123,7 @@ function command(command) {
     
     */
 
-    fetch("/command", {
+    fetch("http://127.0.0.1:4060/command", {
 
         method: "POST",
         body: `name=${currentInstance}\ncommand=${command}`
