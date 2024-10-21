@@ -1,21 +1,30 @@
 /* --- Define basic variables and values --- */
+const testMode = true;
+
 const game = document.getElementById("game");
-let tickInterval = !document.getElementById("tickInterval").value ? 1000 : document.getElementById("tickInterval").value;
-let gameInstanceName = !document.getElementById("gameInstanceName").value ? "FAR" : document.getElementById("gameInstanceName").value;
-let mapW = !document.getElementById("mapW").value ? 10 : document.getElementById("mapW").value;
-let mapH = !document.getElementById("mapH").value ? 10 : document.getElementById("mapH").value;
+const tickIntervalInput = document.getElementById("tickInterval");
+const gameInstanceNameInput = document.getElementById("gameInstanceName")
+const mapWInput = document.getElementById("mapW");
+const mapHInput = document.getElementById("mapH");
+
+let tickInterval = !tickIntervalInput.value ? 1000 : tickIntervalInput.value;
+let gameInstanceName = !gameInstanceNameInput.value ? "FAR" : gameInstanceNameInput.value;
+let mapW = !mapWInput.value ? 30 : mapWInput.value;
+let mapH = !mapHInput.value ? 15 : mapHInput.value;
+
+tickIntervalInput.onchange = () => tickInterval = !tickIntervalInput.value ? 1000 : tickIntervalInput.value;
+gameInstanceNameInput.onchange = () => gameInstanceName = !gameInstanceNameInput.value ? "FAR" : gameInstanceNameInput.value;
+mapWInput.onchange = () => mapW = !mapWInput.value ? 30 : mapWInput.value;
+mapHInput.onchange = () => mapH = !mapHInput.value ? 15 : mapHInput.value;
+
 const pauseGame = document.getElementById("pauseGame");
 const newGame = document.getElementById("newGame");
 const addFox = document.getElementById("addFox");
 const addRabbit = document.getElementById("addRabbit");
 const newGameDialog = document.getElementById("newGameDialog");
 const newGameToggle = document.getElementById("newGameToggle");
-let tickSetInterval;
 
-document.getElementById("tickInterval").onchange = () => tickInterval = !document.getElementById("tickInterval").value ? 1000 : document.getElementById("tickInterval").value;
-document.getElementById("gameInstanceName").onchange = () => gameInstanceName = !document.getElementById("gameInstanceName").value ? "FAR" : document.getElementById("gameInstanceName").value;
-document.getElementById("mapW").onchange = () => mapW = !document.getElementById("mapW").value ? 10 : document.getElementById("mapW").value;
-document.getElementById("mapH").onchange = () => mapH = !document.getElementById("mapH").value ? 10 : document.getElementById("mapH").value;
+let tickSetInterval;
 
 // There's no instance yet, so you can't do much ¯\_(ツ)_/¯
 [pauseGame, addFox, addRabbit].forEach(element => element.toggleAttribute("disabled"));
@@ -38,10 +47,10 @@ newGame.onclick = async () => {
     newGameDialog.close()
 
     handleResponse(await newInstance(gameInstanceName, mapW, mapH, false));
-    tickSetInterval = setInterval(async () => {handleResponse(await tick()); console.log(`New game started!\nGame data:\ngameInstanceName: ${gameInstanceName}\nmapW: ${mapW}\nmapH: ${mapH}\ntickInterval: ${tickInterval}\nGame started: ${getAttr(game, "started")}\nGame playing: ${getAttr(game, "playing")}`);}, tickInterval);
+    tickSetInterval = setInterval(async () => {handleResponse(await tick()); if(testMode) console.log(`Tick!\nGame data:\ngameInstanceName: ${gameInstanceName}\nmapW: ${mapW}\nmapH: ${mapH}\ntickInterval: ${tickInterval}\nGame started: ${getAttr(game, "started")}\nGame playing: ${getAttr(game, "playing")}`);}, tickInterval);
 
     /* THIS IS FOR TESTING PURPOSES ONLY, IT WILL BE REMOVED IN THE FINAL RELEASE */
-    console.log(`New game started!\nGame data:\ngameInstanceName: ${gameInstanceName}\nmapW: ${mapW}\nmapH: ${mapH}\ntickInterval: ${tickInterval}\nGame started: ${getAttr(game, "started")}\nGame playing: ${getAttr(game, "playing")}`);
+    if(testMode) console.log(`New game started!\nGame data:\ngameInstanceName: ${gameInstanceName}\nmapW: ${mapW}\nmapH: ${mapH}\ntickInterval: ${tickInterval}\nGame started: ${getAttr(game, "started")}\nGame playing: ${getAttr(game, "playing")}`);
 }
 
 pauseGame.onclick = async () => {
@@ -51,7 +60,7 @@ pauseGame.onclick = async () => {
         clearInterval(tickSetInterval);
     } else{
         game.setAttribute("playing", "");
-        tickSetInterval = setInterval(async () => {handleResponse(await tick()); console.log(`New game started!\nGame data:\ngameInstanceName: ${gameInstanceName}\nmapW: ${mapW}\nmapH: ${mapH}\ntickInterval: ${tickInterval}\nGame started: ${getAttr(game, "started")}\nGame playing: ${getAttr(game, "playing")}`);}, tickInterval);
+        tickSetInterval = setInterval(async () => {handleResponse(await tick()); if(testMode) console.log(`Tick!\nGame data:\ngameInstanceName: ${gameInstanceName}\nmapW: ${mapW}\nmapH: ${mapH}\ntickInterval: ${tickInterval}\nGame started: ${getAttr(game, "started")}\nGame playing: ${getAttr(game, "playing")}`);}, tickInterval);
     }
 
     // Updating the buttons
@@ -61,7 +70,7 @@ pauseGame.onclick = async () => {
     handleResponse(await toggle());
 
     /* THIS IS FOR TESTING PURPOSES ONLY, IT WILL BE REMOVED IN THE FINAL RELEASE */
-    console.log(`New game started!\nGame data:\ngameInstanceName: ${gameInstanceName}\nmapW: ${mapW}\nmapH: ${mapH}\ntickInterval: ${tickInterval}\nGame started: ${getAttr(game, "started")}\nGame playing: ${getAttr(game, "playing")}`);
+    if(testMode) console.log(`Game paused!\nGame data:\ngameInstanceName: ${gameInstanceName}\nmapW: ${mapW}\nmapH: ${mapH}\ntickInterval: ${tickInterval}\nGame started: ${getAttr(game, "started")}\nGame playing: ${getAttr(game, "playing")}`);
 }
 
 // Spawns an entity on the map upon clicking the button
@@ -106,12 +115,13 @@ function drawMap(mapDict){
         blocks.classList.add("line");
         for (let j = 0; j < mapDict.grassMap[i].split(";").length; j++) {
             let block = document.createElement("div");
+            if(testMode) block.textContent = `${j};${i}`
             block.classList.add(`grass-${mapDict.grassMap[i].split(";")[j]}`);
             mapDict.mobMap.forEach(entity => {
                 let entityData = entity.split("@-@");
                 let entityType = entityData[0];
                 let entityPos = entityData[1].split(" ");
-                if(entityPos[0]-1 == i && entityPos[1]-1 == j) block.textContent = entityEmojis[entityType];
+                if(entityPos[1] == i && entityPos[0] == j) block.textContent = entityEmojis[entityType];
             });
             blocks.append(block);
         }
