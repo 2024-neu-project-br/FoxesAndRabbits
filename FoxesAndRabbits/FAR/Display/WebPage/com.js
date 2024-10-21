@@ -1,10 +1,10 @@
 let currentInstance = "<empty>";
 
-function newInstance(name, width, height, isMapBlank) {
+async function newInstance(name, width, height, isMapBlank) {
 
     currentInstance = name;
 
-    fetch("http://127.0.0.1:4060/newInstance", {
+    return await fetch("http://127.0.0.1:4060/newInstance", {
         
         method: "POST",
         body: `name=${currentInstance}\nwidth=${width}\nheight=${height}\nisMapBlank=${isMapBlank}`
@@ -39,9 +39,8 @@ function newInstance(name, width, height, isMapBlank) {
 
 }
 
-function tick() { // this function is run by the client, meaning here in javascript at a rate defined by the user themselves, when the function is run, it tells the server to update the current state of the game to the new one and it responds with that
-
-    fetch("http://127.0.0.1:4060/tick", {
+async function tick() { // this function is run by the client, meaning here in javascript at a rate defined by the user themselves, when the function is run, it tells the server to update the current state of the game to the new one and it responds with that
+    return await fetch("http://127.0.0.1:4060/tick", {
         
         method: "POST",
         body: `name=${currentInstance}\ndummy=yes` // this is so wrong, just, sooooo wrong, very wrong, sooooo wrong, please help
@@ -115,7 +114,7 @@ const addEntity = (type, x, y) => command("+E " + type + " " + x + " " + y);
 
 const removeEntity = (type, x, y) => command("-E " + type + " " + x + " " + y);
 
-function command(command) {
+async function command(command) {
 
     /*
     
@@ -123,10 +122,36 @@ function command(command) {
     
     */
 
-    fetch("http://127.0.0.1:4060/command", {
+    return await fetch("http://127.0.0.1:4060/command", {
 
         method: "POST",
         body: `name=${currentInstance}\ncommand=${command}`
+
+    }).then(async (response) => {
+
+        if (response.status == 200) {
+
+            return await response.text();
+
+            /*
+            
+                returns gameState
+            
+            */
+
+        }
+
+        else {
+
+            return response.statusText;
+
+            /*
+            
+                if this is triggered it means the command was unsuccessful at running
+            
+            */
+
+        }
 
     });
 

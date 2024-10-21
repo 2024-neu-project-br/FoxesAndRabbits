@@ -19,7 +19,7 @@ newGameToggle.onclick = () => {
     newGameDialog.showModal()
 }
 
-newGame.onclick = () => {
+newGame.onclick = async () => {
     // Checks if these buttons are disabled or not, enables them if yes
     [pauseGame, addFox, addRabbit].forEach(element => {if(getAttr(element, "disabled")) element.removeAttribute("disabled");});
 
@@ -32,28 +32,28 @@ newGame.onclick = () => {
     newGameToggle.toggleAttribute("disabled");
     newGameDialog.close()
 
-    handleResponse(newInstance(gameInstanceName, mapW, mapH, false));
-    tickSetInterval = setInterval(()=>handleResponse(tick()), tickInterval);
+    handleResponse(await newInstance(gameInstanceName, mapW, mapH, false));
+    tickSetInterval = setInterval(async () => handleResponse(await tick()), tickInterval); //my fucking god, i forgor async await
 
     /* THIS IS FOR TESTING PURPOSES ONLY, IT WILL BE REMOVED IN THE FINAL RELEASE */
     console.log(`New game started!\nGame started: ${getAttr(game, "started")}\nGame playing: ${getAttr(game, "playing")}`);
 }
 
-pauseGame.onclick = () => {
+pauseGame.onclick = async () => {
     // This checks whether the game is playing or not and toggles that attribute based on that
     if(getAttr(game, "playing")){
         game.removeAttribute("playing", "");
         clearInterval(tickSetInterval);
     } else{
         game.setAttribute("playing", "");
-        tickSetInterval = setInterval(()=>handleResponse(tick()), tickInterval);
+        tickSetInterval = setInterval(async () => handleResponse(await tick()), tickInterval);
     }
 
     // Updating the buttons
     [newGameToggle, addFox, addRabbit].forEach(element => element.toggleAttribute("disabled"))
     pauseGame.innerText = getAttr(game, "playing") ? "Pause game" : "Unpause game";
 
-    handleResponse(toggle());
+    handleResponse(await toggle());
 
     /* THIS IS FOR TESTING PURPOSES ONLY, IT WILL BE REMOVED IN THE FINAL RELEASE */
     console.log(`Game paused!\nGame started: ${getAttr(game, "started")}\nGame playing: ${getAttr(game, "playing")}`);
