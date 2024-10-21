@@ -10,31 +10,7 @@ async function newInstance(name, width, height, isMapBlank) {
         body: `name=${currentInstance}\nwidth=${width}\nheight=${height}\nisMapBlank=${isMapBlank}`
     
     }).then(async (response) => {
-
-        if (response.status == 200) {
-
-            return await response.text();
-
-            /*
-            
-                gameState is the variable that contains all the information that has to/can be rendered
-            
-            */
-
-        }
-
-        else {
-
-            return response.statusText;
-
-            /*
-            
-                if this is triggered it means the user tried creating an instance with a name that already exists
-            
-            */
-
-        }
-
+        return await response.text();
     });
 
 }

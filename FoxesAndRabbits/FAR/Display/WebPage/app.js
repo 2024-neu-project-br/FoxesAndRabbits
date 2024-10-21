@@ -94,10 +94,18 @@ function parseMap(mapString){
 }
 
 /* This doesn't do anything yet, just console.logs the response, later it will actually handle the response it gets */
-function handleResponse(response){
+async function handleResponse(response){
+    //if(testMode) console.log(`Allah said: ${response}`)
+
     /* THIS IS FOR TESTING PURPOSES ONLY, IT WILL BE REMOVED IN THE FINAL RELEASE */
     let exampleString = "startOfExample\n\nGRASSMAP\n2;3;3;3;2;3;3;3;1;2;3;3;1\n2;3;3;3;3;2;2;3;3;2;3;3;3\n3;1;2;3;3;3;2;2;3;3;3;2;2\n3;3;2;3;3;3;2;1;3;2;3;3;3\n3;3;3;3;1;2;3;3;3;3;1;3;2\n2;3;1;1;2;3;3;3;3;3;3;3;3\n3;3;3;3;1;1;3;3;2;3;3;2;1\n\nMOBMAP\nFOX@-@5 2\nFOX@-@3 6\nFOX@-@7 9\nFOX@-@10 5\nRABBIT@-@2 2\nRABBIT@-@7 7\nRABBIT@-@9 6\nRABBIT@-@2 6\n\nendOfExample";
     
+    /* Creating a new instance in case the gameInstance with the same name would exist */
+    if(response == "Instance already exists.") {
+        gameInstanceName = createID(10);
+        handleResponse(await newInstance(gameInstanceName, mapW, mapH, false))
+    }
+
     // If the response isn't an error, then draw the map
     if(response.includes("GRASSMAP")) drawMap(parseMap(response));
 }
@@ -127,4 +135,17 @@ function drawMap(mapDict){
         }
         game.append(blocks);
     }
+}
+
+/* This function creates an ID in case the gameInstance with the same name would exist */
+function createID (length){
+    let result = '';
+    const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+    const charactersLength = characters.length;
+    let counter = 0;
+    while (counter < length) {
+        result += characters.charAt(Math.floor(Math.random() * charactersLength));
+        counter += 1;
+    }
+    return result;
 }
