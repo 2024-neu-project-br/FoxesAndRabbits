@@ -19,17 +19,7 @@ namespace FoxesAndRabbits.FAR.Entities {
 
         public override void IndividualUpdate() {
 
-            bool canPounce = foodLevel == maxFoodLevel || instance.map.GetEntitiesAround(X, Y).Count == 0;
-
-            // this is for testing purposes
-
-            int[] gaysex = instance.map.GetRandomEmptyCellAround(X, Y, 2);
-            X = gaysex[0];
-            Y = gaysex[1];
-
-            // skibidi
-
-            // your stuff goes here zraphy
+            
 
         }
 

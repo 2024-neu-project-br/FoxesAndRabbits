@@ -38,8 +38,8 @@ namespace FoxesAndRabbits.FAR {
             this.instance = instance;
 
             TYPE = type;
-            x = instance.map.GetWrappedY(initialPos[0]);
-            y = instance.map.GetWrappedX(initialPos[1]);
+            x = instance.map.GetWrappedX(initialPos[0]);
+            y = instance.map.GetWrappedY(initialPos[1]);
             newX = x;
             newY = y;
 
