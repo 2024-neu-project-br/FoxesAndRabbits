@@ -1,9 +1,9 @@
 /* --- Define basic variables and values --- */
 const game = document.getElementById("game");
-let tickInterval = !document.getElementById("tickInterval").value ? 1000 : document.getElementById("tickInterval").value;
-let gameInstanceName = !document.getElementById("gameInstanceName").value ? "FAR" : document.getElementById("gameInstanceName").value;
-let mapW = !document.getElementById("mapW").value ? 10 : document.getElementById("mapW").value;
-let mapH = !document.getElementById("mapH").value ? 10 : document.getElementById("mapH").value;
+let tickInterval = 1000;
+let gameInstanceName = "FAR";
+let mapW = 10;
+let mapH = 10;
 const pauseGame = document.getElementById("pauseGame");
 const newGame = document.getElementById("newGame");
 const addFox = document.getElementById("addFox");
@@ -11,6 +11,11 @@ const addRabbit = document.getElementById("addRabbit");
 const newGameDialog = document.getElementById("newGameDialog");
 const newGameToggle = document.getElementById("newGameToggle");
 let tickSetInterval;
+
+document.getElementById("tickInterval").onchange = () => tickInterval = !document.getElementById("tickInterval").value ? 1000 : document.getElementById("tickInterval").value;
+document.getElementById("gameInstanceName").onchange = () => gameInstanceName = !document.getElementById("gameInstanceName").value ? "FAR" : document.getElementById("gameInstanceName").value;
+document.getElementById("mapW").onchange = () => mapW = !document.getElementById("mapW").value ? 10 : document.getElementById("mapW").value;
+document.getElementById("mapH").onchange = () => mapH = !document.getElementById("mapH").value ? 10 : document.getElementById("mapH").value;
 
 // There's no instance yet, so you can't do much ¯\_(ツ)_/¯
 [pauseGame, addFox, addRabbit].forEach(element => element.toggleAttribute("disabled"));
@@ -33,10 +38,10 @@ newGame.onclick = async () => {
     newGameDialog.close()
 
     handleResponse(await newInstance(gameInstanceName, mapW, mapH, false));
-    tickSetInterval = setInterval(async () => handleResponse(await tick()), tickInterval); //my fucking god, i forgor async await
+    tickSetInterval = setInterval(async () => {handleResponse(await tick()); console.log(`New game started!\nGame data:\ngameInstanceName: ${gameInstanceName}\nmapW: ${mapW}\nmapH: ${mapH}\ntickInterval: ${tickInterval}\nGame started: ${getAttr(game, "started")}\nGame playing: ${getAttr(game, "playing")}`);}, tickInterval);
 
     /* THIS IS FOR TESTING PURPOSES ONLY, IT WILL BE REMOVED IN THE FINAL RELEASE */
-    console.log(`New game started!\nGame started: ${getAttr(game, "started")}\nGame playing: ${getAttr(game, "playing")}`);
+    console.log(`New game started!\nGame data:\ngameInstanceName: ${gameInstanceName}\nmapW: ${mapW}\nmapH: ${mapH}\ntickInterval: ${tickInterval}\nGame started: ${getAttr(game, "started")}\nGame playing: ${getAttr(game, "playing")}`);
 }
 
 pauseGame.onclick = async () => {
@@ -46,7 +51,7 @@ pauseGame.onclick = async () => {
         clearInterval(tickSetInterval);
     } else{
         game.setAttribute("playing", "");
-        tickSetInterval = setInterval(async () => handleResponse(await tick()), tickInterval);
+        tickSetInterval = setInterval(async () => {handleResponse(await tick()); console.log(`New game started!\nGame data:\ngameInstanceName: ${gameInstanceName}\nmapW: ${mapW}\nmapH: ${mapH}\ntickInterval: ${tickInterval}\nGame started: ${getAttr(game, "started")}\nGame playing: ${getAttr(game, "playing")}`);}, tickInterval);
     }
 
     // Updating the buttons
@@ -56,7 +61,7 @@ pauseGame.onclick = async () => {
     handleResponse(await toggle());
 
     /* THIS IS FOR TESTING PURPOSES ONLY, IT WILL BE REMOVED IN THE FINAL RELEASE */
-    console.log(`Game paused!\nGame started: ${getAttr(game, "started")}\nGame playing: ${getAttr(game, "playing")}`);
+    console.log(`New game started!\nGame data:\ngameInstanceName: ${gameInstanceName}\nmapW: ${mapW}\nmapH: ${mapH}\ntickInterval: ${tickInterval}\nGame started: ${getAttr(game, "started")}\nGame playing: ${getAttr(game, "playing")}`);
 }
 
 // Spawns an entity on the map upon clicking the button
