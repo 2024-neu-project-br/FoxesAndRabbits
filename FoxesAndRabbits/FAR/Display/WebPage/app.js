@@ -1,9 +1,9 @@
 /* --- Define basic variables and values --- */
 const game = document.getElementById("game");
-const tickInterval = !document.getElementById("tickInterval").value ? 1000 : document.getElementById("tickInterval").value;
-const gameInstanceName = !document.getElementById("gameInstanceName").value ? "FAR" : document.getElementById("gameInstanceName").value;
-const mapW = !document.getElementById("mapW").value ? 10 : document.getElementById("mapW").value;
-const mapH = !document.getElementById("mapH").value ? 10 : document.getElementById("mapH").value;
+let tickInterval = !document.getElementById("tickInterval").value ? 1000 : document.getElementById("tickInterval").value;
+let gameInstanceName = !document.getElementById("gameInstanceName").value ? "FAR" : document.getElementById("gameInstanceName").value;
+let mapW = !document.getElementById("mapW").value ? 10 : document.getElementById("mapW").value;
+let mapH = !document.getElementById("mapH").value ? 10 : document.getElementById("mapH").value;
 const pauseGame = document.getElementById("pauseGame");
 const newGame = document.getElementById("newGame");
 const addFox = document.getElementById("addFox");
