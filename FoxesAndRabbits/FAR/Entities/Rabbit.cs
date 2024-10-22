@@ -8,47 +8,46 @@ namespace FoxesAndRabbits.FAR.Entities {
 
     public class Rabbit : Entity {
 
-        public Rabbit(GameInstance instance, int[] initialPos) : base(instance, EntityType.RABBIT, initialPos) {
+        double diseaseProbability;
+        public bool isDiseased;
+
+        public Rabbit(GameInstance instance, int[] initialPos, double diseaseProbability) : base(instance, EntityType.RABBIT, initialPos) {
 
             typeString = "RABBIT";
             maxFoodLevel = 5;
             foodLevel = maxFoodLevel;
             foodLevelNew = foodLevel; // huh? (this is probably some initialization stuff, im not entirely sure why im adding this, skibidi)
 
+            this.diseaseProbability = diseaseProbability;
+            isDiseased = instance.random.NextDouble() < this.diseaseProbability;
+
         }
 
         public override void IndividualUpdate() {
 
-            bool canUwU = foodLevel == maxFoodLevel || instance.map.GetEntitiesAround(X, Y).Count == 0; // huh? rabbits cant pounce according to the game rules, im not sure what you did here
-        
-        }
-        public void Eat()
-        {
-            switch (instance.map.grassMap[X, Y]) {
-                case 2:
-                    if (foodLevel != maxFoodLevel)
-                    {
-                        foodLevelNew++;
-                        instance.map.grassMapNew[X, Y] = 0;
-                    }
-                break;
-                case 3:
-                    if (foodLevel != maxFoodLevel - 1) {
-                        foodLevelNew++;
-                        instance.map.grassMapNew[X, Y] = 0;
-                    }
-                    if (foodLevel != maxFoodLevel) foodLevelNew++;
-                break;
-            }
-        }
+            List<int[]> grassCellsAround = [.. instance.map.GetEmptyCellsAround(X, Y).OrderBy(x => instance.map.grassMap[x[0], x[1]])]; // this is based
+
+            /*
+            
+                BUG: two entities can simultaneously choose to go on the same cell at once, and since the action isnt being taken until the Tick() function runs,
+                the future location of each entity remains unknown unless a special variable denoting the subsequent is not utilised
+                (my lazyass is probably too lazy to do that, maybe i will do it if i feel like)
+            
+                HOWEVER: this can lead to other bugs where the information of a select entity is not properly overhauled by the instance
+                and therefore either gets stuck in the previous state or gets corrupted
+
+                (i will actually fix it cus my dumbass aint playing with this bih, sooo...)
+                SOLUTION: the presence of a matrix denoting the occupancy of each cell may bring a proper solution to the problem,
+                where updating the current position of each entity would easily take use of the matrix and check if any other entity has already claimed the spot
+                this check should be implemented in the Update() function of the Entity.cs class
+                if a select entitys future position would conflict with the already selected coordinates of anothers, the entity in question should keep
+                its momentary position and shall try again in the next iteration
+
+                ينشاللله يا الله اكبر 🙏🙏🙏
 
 
-        public void Move()
-        {
-            int[] randomCell = instance.map.GetRandomEmptyCellAround(X, Y, 1);
-            X = randomCell[0];
-            Y = randomCell[1];
-            // I know I'm probably not doing this right, but please just leave this be for the time being, because I actually feel like I'll just kms after making the website part work
+            */
+
         }
 
     }

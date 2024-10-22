@@ -55,6 +55,18 @@ namespace FoxesAndRabbits.FAR {
             // stuff after individual updates
             if (foodLevelNew <= 0) instance.map.entitiesToBeRemoved.Add(this);
 
+            // this check here is only a failproof check, each entity should check whether if their future position is valid or not for themselves
+            if (instance.map.futureOccupancyMap[newX, newY]) {
+
+                newX = x;
+                newY = y;
+
+                return;
+
+            }
+
+            instance.map.futureOccupancyMap[newX, newY] = true; // balls
+
         }
 
         public virtual void IndividualUpdate() {}

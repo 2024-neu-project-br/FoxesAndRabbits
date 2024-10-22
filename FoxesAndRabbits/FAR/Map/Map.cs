@@ -14,6 +14,7 @@ namespace FoxesAndRabbits.FAR {
         public int WIDTH, HEIGHT;
 
         public int[,] grassMap, grassMapNew;
+        public bool[,] futureOccupancyMap;
 
         public List<Entity> entities = new List<Entity>(),
                             entitiesToBeAdded = new List<Entity>(),
@@ -27,7 +28,15 @@ namespace FoxesAndRabbits.FAR {
             HEIGHT = height;
 
             grassMap = new int[width, height];
-            for (int x = 0; x < width; x++) for (int y = 0; y < height; y++) grassMap[x, y] = 3;
+            futureOccupancyMap = new bool[width, height];
+
+            for (int x = 0; x < width; x++) for (int y = 0; y < height; y++) {
+                
+                futureOccupancyMap[x, y] = false;
+                grassMap[x, y] = 3;
+
+            }
+
             grassMapNew = grassMap;
 
         }
@@ -42,55 +51,61 @@ namespace FoxesAndRabbits.FAR {
 
         }
 
+        public List<int[]> GetCellsAround(int x, int y) => GetCellsAround(x, y, 1);
+
+        public List<int[]> GetCellsAround(int x, int y, int radius) {
+
+            List<int[]> cells = new List<int[]>();
+
+            x = GetWrappedX(x);
+            y = GetWrappedY(y);
+
+            for (int dx = -radius; dx <= radius; dx++)
+                for (int dy = -radius; dy <= radius; dy++) {
+
+                    if (dx == 0 && dy == 0) continue;
+                    cells.Add([GetWrappedX(x + dx), GetWrappedY(y + dy)]);
+
+                }
+
+            return cells;
+
+        }
+
+        public List<int[]> GetEmptyCellsAround(int x, int y) => GetEmptyCellsAround(x, y, 1);
+
+        public List<int[]> GetEmptyCellsAround(int x, int y, int radius) {
+
+            List<int[]> cells = GetCellsAround(x, y, radius), emptyCells = new List<int[]>();
+
+            foreach (int[] cell in cells) if (GetEntityAt(cell[0], cell[1]) == null) emptyCells.Add(cell);
+
+            return emptyCells;
+
+        }
+
         public List<Entity> GetEntitiesAround(int x, int y) => GetEntitiesAround(x, y, 1);
 
         public List<Entity> GetEntitiesAround(int x, int y, int radius) {
 
-            List<Entity> nearbyEntities = new List<Entity>();
+            List<int[]> cellsInRange = GetCellsAround(x, y, radius);
+            List<Entity> entitiesInRange = new List<Entity>();
 
-            x = GetWrappedX(x);
-            y = GetWrappedY(y);
+            Entity? e;
+            foreach (int[] cell in cellsInRange) if ((e = GetEntityAt(cell[0], cell[1])) != null) entitiesInRange.Add(e);
 
-            for (int dx = -1 * radius; dx <= 1 * radius; dx++)
-                for (int dy = -1 * radius; dy <= 1 * radius; dy++) {
-
-                    if (dx == 0 && dy == 0) continue;
-
-                    Entity? e = GetEntityAt(GetWrappedX(x + dx), GetWrappedY(y + dy));
-                    if (e == null) continue;
-
-                    nearbyEntities.Add(e);
-
-                }
-
-            return nearbyEntities;
+            return entitiesInRange;
 
         }
 
+        public int[] GetRandomEmptyCellAround(int x, int y) => GetRandomEmptyCellAround(x, y, 1);
+
         public int[] GetRandomEmptyCellAround(int x, int y, int radius) {
 
-            /*
+            List<int[]> emptyCells = GetEmptyCellsAround(x, y, radius);
             
-            
-                !!!!!!!ACHTUNG BITTE!!!!!!!
-            
-                Warning: this can get stuck in an infinite loop if the entity cannot find an empty spot around itself
-            
-            
-            */
-
-            Random random = new Random();
-
-            x = GetWrappedX(x);
-            y = GetWrappedY(y);
-
-            int RandomRange() => (int) Math.Ceiling(radius * random.NextDouble()) * random.NextDouble() > 0.5 ? 1 : -1;
-
-            int candidateX = GetWrappedX(x + RandomRange());
-            int candidateY = GetWrappedY(y + RandomRange());
-
-            if (GetEntityAt(candidateX, candidateY) != null) return GetRandomEmptyCellAround(x, y, radius);
-            return [candidateX, candidateY];
+            if (emptyCells.Count == 0) return [GetWrappedX(x), GetWrappedY(y)]; // im not sure why im wrapping, maybe just so that i foolproof myself
+            return emptyCells[instance.random.Next(emptyCells.Count)];
 
         }
 

@@ -15,11 +15,15 @@ namespace FoxesAndRabbits.FAR.Game {
 
         public Map map;
 
+        public Random random;
+
         public GameInstance(string name, int width, int height, bool isMapBlank) {
 
             this.name = name;
             this.width = width;
             this.height = height;
+
+            this.random = new Random(); // please reference to this through the whole instance, dont use locally created Random() instances :pray:
 
             map = new Map(this, width, height);
             if (!isMapBlank) InitRandom();
@@ -28,10 +32,9 @@ namespace FoxesAndRabbits.FAR.Game {
 
         public void InitRandom() {
 
-            Random random = new Random();
             for (int x = 0; x < width; x++)
                 for (int y = 0; y < height; y++)
-                    if (random.NextDouble() > 0.95) map.AddNewEntity(random.NextDouble() > 0.5 ? new Fox(this, [x, y]) : new Rabbit(this, [x, y]));
+                    if (random.NextDouble() > 0.95) map.AddNewEntity(random.NextDouble() > 0.5 ? new Fox(this, [x, y]) : new Rabbit(this, [x, y], 0));
 
             Tick(); // this here is to push all new entities into the main list
 
