@@ -120,6 +120,27 @@ namespace FoxesAndRabbits.FAR.Display {
 
             }
 
+            if (rq.PATH == "/removeInstance") {
+
+                GameInstance instance = Game.Game.GetInstance(name);
+                if (instance == null) {
+
+                    response = new Response(400, "This instance doesn't exist you dumbass.");
+                    con.Send(response.Build());
+
+                    return;
+
+                }
+
+                Game.Game.instances.Remove(instance);
+
+                response = new Response(200, "Done.");
+                con.Send(response.Build());
+
+                return;
+
+            }
+
             if (rq.PATH == "/tick") {
 
                 GameInstance instance = Game.Game.GetInstance(name);
