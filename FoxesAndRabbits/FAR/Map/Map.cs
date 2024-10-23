@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Reflection.Metadata.Ecma335;
 using System.Threading.Tasks;
+using FoxesAndRabbits.FAR.Entities;
 using FoxesAndRabbits.FAR.Game;
 
 namespace FoxesAndRabbits.FAR {
@@ -28,16 +29,16 @@ namespace FoxesAndRabbits.FAR {
             HEIGHT = height;
 
             grassMap = new int[width, height];
+            grassMapNew = new int[width, height];
             futureOccupancyMap = new Entity[width, height];
 
             for (int x = 0; x < width; x++) for (int y = 0; y < height; y++) {
                 
                 futureOccupancyMap[x, y] = null;
                 grassMap[x, y] = 3;
+                grassMapNew[x, y] = grassMap[x, y];
 
             }
-
-            grassMapNew = grassMap;
 
         }
 
@@ -101,6 +102,11 @@ namespace FoxesAndRabbits.FAR {
 
         }
 
+        public List<Entity> GetEntitiesByTypeAround(int x, int y, EntityType type) => GetEntitiesByTypeAround(x, y, 1, type);
+
+        public List<Entity> GetEntitiesByTypeAround(int x, int y, int radius, EntityType type)
+            => [.. GetEntitiesAround(x, y, radius).Where(e => e.TYPE == type)];
+
         public int[] GetRandomEmptyCellAround(int x, int y) => GetRandomEmptyCellAround(x, y, 1);
 
         public int[] GetRandomEmptyCellAround(int x, int y, int radius) {
@@ -135,8 +141,12 @@ namespace FoxesAndRabbits.FAR {
 
         public void Tick() {
 
-            grassMap = grassMapNew;
-            for (int x = 0; x < WIDTH; x++) for (int y = 0; y < HEIGHT; y++) futureOccupancyMap[x, y] = null;
+            for (int x = 0; x < WIDTH; x++) for (int y = 0; y < HEIGHT; y++) {
+                
+                grassMap[x, y] = grassMapNew[x, y];
+                futureOccupancyMap[x, y] = null;
+
+            }
 
             entities.AddRange(entitiesToBeAdded);
             foreach (Entity e in entitiesToBeRemoved) entities.Remove(e);

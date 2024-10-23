@@ -85,7 +85,7 @@ namespace FoxesAndRabbits.FAR {
         public void Update() {
 
             // stuff before individual updates
-            foodLevelNew--;
+            foodLevelNew = foodLevel - 1;
 
             IndividualUpdate();
 
