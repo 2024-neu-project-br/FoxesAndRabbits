@@ -5,6 +5,7 @@
 }
 
 html, body, main{
+    background-color: var(--game-bg);
     width: 100vw;
     height: 100vh;
     margin: 0;
@@ -25,6 +26,7 @@ main{
     flex-direction: column;
     align-items: center;
     justify-content: center;
+    overflow: scroll;
 }
 
 #inputs{
@@ -37,6 +39,7 @@ main{
     justify-content: center;
     gap: 1em;
     padding: 0 25%;
+    z-index: 9998;
 }
 
 dialog[open]{
@@ -55,6 +58,7 @@ dialog[open]{
     padding: 10%;
     margin: 0;
     border: 0;
+    z-index: 9999;
 }
 
 dialog{
@@ -94,21 +98,52 @@ dialog input, dialog button{
     flex-direction: row;
 }
 
-#game .line .grass-1, #game .line .grass-2, #game .line .grass-3{
-    width: 1.5em;
-    height: 1.5em;
+#game .line .grass-1,
+#game .line .grass-2,
+#game .line .grass-3{
+    width: calc(50vw / var(--mapW));
+    height: calc(50vh / var(--mapH));
+}
+
+#game .line:first-child > *:first-child{
+    border-radius: .25em 0 0 0;
+}
+
+#game .line:first-child > *:last-child{
+    border-radius: 0 .25em 0 0;
+}
+
+#game .line:last-child > *:first-child{
+    border-radius: 0 0 0 .25em;
+}
+
+#game .line:last-child > *:last-child{
+    border-radius: 0 0 .25em 0;
+}
+
+#game .line > *{
+    border-radius: .05em;
+}
+
+#game .line * > img{
+    position: relative;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 75%;
+    height: 75%;
 }
 
 #game .line .grass-1{
-    background-color: lightgreen;
+    background-color: #78A75A;
 }
 
 #game .line .grass-2{
-    background-color: green;
+    background-color: #48752C;
 }
 
 #game .line .grass-3{
-    background-color: darkgreen;
+    background-color: #314D1C;
 }
 
 @media screen and (max-width: 1100px) {
@@ -132,6 +167,13 @@ dialog input, dialog button{
     #game{
         height: 50% !important;
     }
+
+    #game .line .grass-1,
+    #game .line .grass-2,
+    #game .line .grass-3{
+    width: calc(40vw / var(--mapW));
+    height: calc(40vh / var(--mapH));
+}
 }
 
 @media screen and (max-width: 650px) {

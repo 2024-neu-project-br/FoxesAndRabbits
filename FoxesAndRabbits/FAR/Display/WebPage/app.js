@@ -1,6 +1,7 @@
 /* --- Define basic variables and values --- */
-const testMode = true;
+const testMode = false;
 
+const root = document.querySelector(':root');
 const game = document.getElementById("game");
 const tickIntervalInput = document.getElementById("tickInterval");
 const gameInstanceNameInput = document.getElementById("gameInstanceName")
@@ -25,7 +26,6 @@ const newGameDialog = document.getElementById("newGameDialog");
 const newGameToggle = document.getElementById("newGameToggle");
 
 let tickSetInterval;
-let emergencyBreak = false;
 
 // There's no instance yet, so you can't do much ¯\_(ツ)_/¯
 [pauseGame, addFox, addRabbit].forEach(element => element.toggleAttribute("disabled"));
@@ -35,23 +35,53 @@ newGameToggle.onclick = () => {
 }
 
 newGame.onclick = async () => {
-    // Checks if these buttons are disabled or not, enables them if yes
-    [pauseGame, addFox, addRabbit].forEach(element => {if(getAttr(element, "disabled")) element.removeAttribute("disabled");});
+    if(mapW >= 10 && mapH >= 10 && mapW <= 50 && mapH <= 50){
+        // Checks if these buttons are disabled or not, enables them if yes
+        [pauseGame, addFox, addRabbit].forEach(element => {if(getAttr(element, "disabled")) element.removeAttribute("disabled");});
+    
+        // Set CSS variables
+        root.style.setProperty("--mapW", mapW);
+        root.style.setProperty("--mapH", mapH);
 
-    // Setting basic attributes and updating the pause button
-    game.setAttribute("started", "");
-    game.setAttribute("playing", "");
-    pauseGame.innerText = getAttr(game, "playing") ? "Pause game" : "Unpause game";
-
-    // Disables the new game button until the game gets paused
-    newGameToggle.toggleAttribute("disabled");
-    newGameDialog.close();
-
-    handleResponse(await newInstance(gameInstanceName, mapW, mapH, false));
-    tickSetInterval = setInterval(async () => {handleResponse(await tick()); if(testMode) console.log(`Tick!\nGame data:\ngameInstanceName: ${gameInstanceName}\nmapW: ${mapW}\nmapH: ${mapH}\ntickInterval: ${tickInterval}\nGame started: ${getAttr(game, "started")}\nGame playing: ${getAttr(game, "playing")}`);}, tickInterval);
-
-    /* THIS IS FOR TESTING PURPOSES ONLY, IT WILL BE REMOVED IN THE FINAL RELEASE */
-    if(testMode) console.log(`New game started!\nGame data:\ngameInstanceName: ${gameInstanceName}\nmapW: ${mapW}\nmapH: ${mapH}\ntickInterval: ${tickInterval}\nGame started: ${getAttr(game, "started")}\nGame playing: ${getAttr(game, "playing")}`);
+        // Setting basic attributes and updating the pause button
+        game.setAttribute("started", "");
+        game.setAttribute("playing", "");
+        pauseGame.innerText = getAttr(game, "playing") ? "Pause game" : "Unpause game";
+    
+        // Disables the new game button until the game gets paused
+        newGameToggle.toggleAttribute("disabled");
+        newGameDialog.close();
+    
+        handleResponse(await newInstance(gameInstanceName, mapW, mapH, false));
+        tickSetInterval = setInterval(async () => {
+            handleResponse(await tick());
+            if(testMode) 
+                console.log(`Tick!\n
+                    Game data:\n
+                    gameInstanceName: ${gameInstanceName}\n
+                    mapW: ${mapW}\n
+                    mapH: ${mapH}\n
+                    tickInterval: ${tickInterval}\n
+                    Game started: ${getAttr(game, "started")}\n
+                    Game playing: ${getAttr(game, "playing")}`
+                );
+            }, tickInterval);
+    
+        /* THIS IS FOR TESTING PURPOSES ONLY, IT WILL BE REMOVED IN THE FINAL RELEASE */
+        if(testMode) 
+            console.log(`
+                New game started!\n
+                Game data:\n
+                gameInstanceName: ${gameInstanceName}\n
+                mapW: ${mapW}\n
+                mapH: ${mapH}\n
+                tickInterval: ${tickInterval}\n
+                Game started: ${getAttr(game, "started")}\n
+                Game playing: ${getAttr(game, "playing")}`
+            );
+    } else {
+        alert("The map width and height values must be between 10 and 50 !")
+    }
 }
 
 pauseGame.onclick = async () => {
@@ -61,19 +91,39 @@ pauseGame.onclick = async () => {
         clearInterval(tickSetInterval);
     } else{
         game.setAttribute("playing", "");
-        tickSetInterval = setInterval(async () => {handleResponse(await tick()); if(testMode) console.log(`Tick!\nGame data:\ngameInstanceName: ${gameInstanceName}\nmapW: ${mapW}\nmapH: ${mapH}\ntickInterval: ${tickInterval}\nGame started: ${getAttr(game, "started")}\nGame playing: ${getAttr(game, "playing")}`);}, tickInterval);
+        tickSetInterval = setInterval(async () => {
+            handleResponse(await tick()); 
+            if(testMode) 
+                console.log(`
+                    Tick!\n
+                    Game data:\n
+                    gameInstanceName: ${gameInstanceName}\n
+                    mapW: ${mapW}\n
+                    mapH: ${mapH}\n
+                    tickInterval: ${tickInterval}\n
+                    Game started: ${getAttr(game, "started")}\n
+                    Game playing: ${getAttr(game, "playing")}
+                `);
+            }, tickInterval);
     }
 
     // Updating the buttons
     [newGameToggle, addFox, addRabbit].forEach(element => element.toggleAttribute("disabled"))
     pauseGame.innerText = getAttr(game, "playing") ? "Pause game" : "Unpause game";
 
-    handleResponse(await toggle());
-
-    emergencyBreak = true;
+    //handleResponse(await toggle());
 
     /* THIS IS FOR TESTING PURPOSES ONLY, IT WILL BE REMOVED IN THE FINAL RELEASE */
-    if(testMode) console.log(`Game paused!\nGame data:\ngameInstanceName: ${gameInstanceName}\nmapW: ${mapW}\nmapH: ${mapH}\ntickInterval: ${tickInterval}\nGame started: ${getAttr(game, "started")}\nGame playing: ${getAttr(game, "playing")}`);
+    if(testMode)
+        console.log(`Game paused!\n
+            Game data:\n
+            gameInstanceName: ${gameInstanceName}\n
+            mapW: ${mapW}\n
+            mapH: ${mapH}\n
+            tickInterval: ${tickInterval}\n
+            Game started: ${getAttr(game, "started")}\n
+            Game playing: ${getAttr(game, "playing")}`
+        );
 }
 
 // Spawns an entity on the map upon clicking the button
@@ -113,14 +163,15 @@ async function handleResponse(response){
     if(response.includes("GRASSMAP")) drawMap(parseMap(response));
 }
 
+/*
 const entityEmojis = {
     FOX: "🦊",
     RABBIT: "🐰",
 }
+*/
 
 /* This function "draws" the map */
 function drawMap(mapDict){
-    if(emergencyBreak) return clearInterval(tickSetInterval);
     game.innerHTML = "";
     for (let i = 0; i < mapDict.grassMap.length; i++) {
         let blocks = document.createElement("div")
@@ -133,7 +184,12 @@ function drawMap(mapDict){
                 let entityData = entity.split("@-@");
                 let entityType = entityData[0];
                 let entityPos = entityData[1].split(" ");
-                if(entityPos[1] == i && entityPos[0] == j) block.textContent = entityEmojis[entityType];
+                if(entityPos[1] == i && entityPos[0] == j){
+                    //block.textContent = entityEmojis[entityType];
+                    let entityImage = document.createElement("img");
+                    entityImage.src = `./img/${entityType.length ? entityType.toLowerCase() : "unknown"}.svg`;
+                    block.append(entityImage)
+                }
             });
             blocks.append(block);
         }
