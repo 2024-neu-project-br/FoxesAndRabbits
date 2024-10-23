@@ -27,7 +27,7 @@ namespace FoxesAndRabbits.FAR.Entities {
             Move(out int[] choice);
             Eat(choice);
 
-            if (isDiseased && instance.random.NextDouble() > 0.6) hasDied = true; // *randomly dies*
+            if (isDiseased && instance.random.NextDouble() > 0.95) hasDied = true; // *randomly dies*
 
         }
 
