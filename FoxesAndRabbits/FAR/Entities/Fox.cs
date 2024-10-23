@@ -52,7 +52,7 @@ namespace FoxesAndRabbits.FAR.Entities {
             Prey(out int[] nextPos);
             Move(nextPos);
 
-            if (instance.random.NextDouble() > 0.8 && isInfected) hasDied = true;
+            if (instance.random.NextDouble() > 0.75 && isInfected) hasDied = true;
 
         }
 
