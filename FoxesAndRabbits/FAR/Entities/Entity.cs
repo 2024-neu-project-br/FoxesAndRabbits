@@ -37,7 +37,7 @@ namespace FoxesAndRabbits.FAR {
 
             set {
 
-                if (foodLevel + value > maxFoodLevel) fln = maxFoodLevel;
+                if (value > maxFoodLevel) fln = maxFoodLevel; // this motherfucker
                 else fln = value;
 
             }
@@ -85,7 +85,7 @@ namespace FoxesAndRabbits.FAR {
         public void Update() {
 
             // stuff before individual updates
-            foodLevelNew--;
+            foodLevelNew = foodLevel - 1;
 
             IndividualUpdate();
 

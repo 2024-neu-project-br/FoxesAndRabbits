@@ -8,18 +8,16 @@ namespace FoxesAndRabbits.FAR.Entities {
 
     public class Rabbit : Entity {
 
-        double diseaseProbability;
         public bool isDiseased;
 
         public Rabbit(GameInstance instance, int[] initialPos, double diseaseProbability) : base(instance, EntityType.RABBIT, initialPos) {
 
             typeString = "RABBIT";
             maxFoodLevel = 5;
-            foodLevel = maxFoodLevel;
+            foodLevel = 1;
             foodLevelNew = foodLevel; // huh? (this is probably some initialization stuff, im not entirely sure why im adding this, skibidi)
 
-            this.diseaseProbability = diseaseProbability;
-            isDiseased = instance.random.NextDouble() < this.diseaseProbability;
+            isDiseased = instance.random.NextDouble() < diseaseProbability;
 
         }
 
@@ -28,6 +26,8 @@ namespace FoxesAndRabbits.FAR.Entities {
             Mate();
             Move(out int[] choice);
             Eat(choice);
+
+            if (isDiseased && instance.random.NextDouble() > 0.6) hasDied = true; // *randomly dies*
 
         }
 
@@ -68,15 +68,16 @@ namespace FoxesAndRabbits.FAR.Entities {
             if (choice[0] == X && choice[1] == Y) return;
 
             map.grassMapNew[choice[0], choice[1]] = 1;
+            int foodLevelAtChoice = map.grassMap[choice[0], choice[1]];
 
             if (isDiseased) {
 
-                foodLevelNew = foodLevel + 1;
+                foodLevelNew = foodLevelAtChoice <= 1 ? 0 : 1;
                 return;
 
             }
 
-            foodLevelNew = foodLevel + map.grassMap[choice[0], choice[1]] - 1;
+            foodLevelNew = foodLevel + foodLevelAtChoice - 1;
 
         }
 
