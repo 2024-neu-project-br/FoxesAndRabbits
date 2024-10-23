@@ -141,7 +141,7 @@ function parseMap(mapString){
     // Create an object and parse the data
     let map = {}    
     map.grassMap = lines.slice(lines.findIndex(x=>x=="GRASSMAP")+1, lines.findIndex(x=>x=="MOBMAP"));
-    map.mobMap = lines.slice(lines.findIndex(x=>x=="MOBMAP")+1, lines.length-1);
+    map.mobMap = lines.slice(lines.findIndex(x=>x=="MOBMAP")+1, lines.length);
     
     return map;
 }
