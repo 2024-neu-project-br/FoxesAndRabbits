@@ -35,7 +35,7 @@ newGameToggle.onclick = () => {
 }
 
 newGame.onclick = async () => {
-    if(mapW >= 10 && mapH >= 10 && mapW <= 50 && mapH <= 50){
+    if(mapW >= 5 && mapH >= 5 && mapW <= 75 && mapH <= 75){
         // Checks if these buttons are disabled or not, enables them if yes
         [pauseGame, addFox, addRabbit].forEach(element => {if(getAttr(element, "disabled")) element.removeAttribute("disabled");});
     
@@ -80,7 +80,7 @@ newGame.onclick = async () => {
                 Game playing: ${getAttr(game, "playing")}`
             );
     } else {
-        alert("The map width and height values must be between 10 and 50 !")
+        alert("The map width and height values must be between 5 and 75.")
     }
 }
 
