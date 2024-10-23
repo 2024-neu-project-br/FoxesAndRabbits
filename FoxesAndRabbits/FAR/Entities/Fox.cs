@@ -52,7 +52,8 @@ namespace FoxesAndRabbits.FAR.Entities {
             Prey(out int[] nextPos);
             Move(nextPos);
 
-            if (instance.random.NextDouble() > 0.75 && isInfected) hasDied = true;
+            // change the probability of death to have an effect on the outcome of the simulation or smth, bismillah
+            if (instance.random.NextDouble() > 1 && isInfected) hasDied = true;
 
         }
 
