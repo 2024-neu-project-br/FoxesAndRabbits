@@ -65,6 +65,8 @@ namespace FoxesAndRabbits.FAR.Entities {
 
         private void Eat(int[] choice) {
 
+            if (choice[0] == X && choice[1] == Y) return;
+
             map.grassMapNew[choice[0], choice[1]] = 1;
 
             if (isDiseased) {

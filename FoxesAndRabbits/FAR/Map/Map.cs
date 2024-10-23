@@ -115,11 +115,18 @@ namespace FoxesAndRabbits.FAR {
         public void AddNewEntity(Entity entity) => entitiesToBeAdded.Add(entity);
         public void RemoveEntity(Entity entity) => entitiesToBeRemoved.Add(entity);
 
+        int grassTick = 0;
         public void Update() {
 
-            for (int x = 0; x < WIDTH; x++)
-                for (int y = 0; y < HEIGHT; y++)
-                    if (grassMap[x, y] < 3) grassMapNew[x, y]++;
+            if (grassTick >= 2) {
+
+                for (int x = 0; x < WIDTH; x++)
+                    for (int y = 0; y < HEIGHT; y++)
+                        if (grassMap[x, y] < 3) grassMapNew[x, y]++;
+                grassTick = 0;
+
+            }
+            grassTick++;
 
             foreach (Entity e in entities) e.Update();
 
