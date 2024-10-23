@@ -25,8 +25,6 @@ namespace FoxesAndRabbits.FAR.Entities {
 
         public override void IndividualUpdate() {
 
-            List<int[]> grassCellsAround = [.. instance.map.GetEmptyCellsAround(X, Y).OrderBy(x => instance.map.grassMap[x[0], x[1]])]; // this is based
-
             /*
             
                 BUG: two entities can simultaneously choose to go on the same cell at once, and since the action isnt being taken until the Tick() function runs,
@@ -47,6 +45,28 @@ namespace FoxesAndRabbits.FAR.Entities {
 
 
             */
+
+            Eat();
+            Mate();
+            Move();
+
+        }
+
+        private void Eat() {}
+
+        private void Mate() => GenericMate((mate, childPos) => {
+
+            double diseaseProbability = (isDiseased ? 0.4 : 0.0) + (((Rabbit) mate).isDiseased ? 0.4 : 0.0) + 0.1;
+
+            //double diseaseProbability = this.diseaseProbability + ((Rabbit) mate).diseaseProbability;
+
+            return new Rabbit(instance, childPos, diseaseProbability);
+
+        });
+
+        private void Move() {
+
+            List<int[]> grassCellsAround = [.. map.GetEmptyCellsAround(X, Y).OrderBy(x => map.grassMap[x[0], x[1]])]; // this is based
 
         }
 

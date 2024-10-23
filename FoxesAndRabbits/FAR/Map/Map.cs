@@ -46,7 +46,10 @@ namespace FoxesAndRabbits.FAR {
 
         public Entity? GetEntityAt(int x, int y) {
 
-            foreach (Entity e in entities) if (e.X == GetWrappedX(x) && e.Y == GetWrappedY(y)) return e;
+            x = GetWrappedX(x);
+            y = GetWrappedY(y);
+
+            foreach (Entity e in entities) if (e.X == x && e.Y == y) return e;
             return null;
 
         }
@@ -110,6 +113,7 @@ namespace FoxesAndRabbits.FAR {
         }
 
         public void AddNewEntity(Entity entity) => entitiesToBeAdded.Add(entity);
+        public void RemoveEntity(Entity entity) => entitiesToBeRemoved.Add(entity);
 
         public void Update() {
 
@@ -125,6 +129,7 @@ namespace FoxesAndRabbits.FAR {
         public void Tick() {
 
             grassMap = grassMapNew;
+            for (int x = 0; x < WIDTH; x++) for (int y = 0; y < HEIGHT; y++) futureOccupancyMap[x, y] = false;
 
             entities.AddRange(entitiesToBeAdded);
             foreach (Entity e in entitiesToBeRemoved) entities.Remove(e);
