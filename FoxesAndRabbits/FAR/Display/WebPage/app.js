@@ -25,6 +25,7 @@ const newGameDialog = document.getElementById("newGameDialog");
 const newGameToggle = document.getElementById("newGameToggle");
 
 let tickSetInterval;
+let emergencyBreak = false;
 
 // There's no instance yet, so you can't do much ¯\_(ツ)_/¯
 [pauseGame, addFox, addRabbit].forEach(element => element.toggleAttribute("disabled"));
@@ -44,7 +45,7 @@ newGame.onclick = async () => {
 
     // Disables the new game button until the game gets paused
     newGameToggle.toggleAttribute("disabled");
-    newGameDialog.close()
+    newGameDialog.close();
 
     handleResponse(await newInstance(gameInstanceName, mapW, mapH, false));
     tickSetInterval = setInterval(async () => {handleResponse(await tick()); if(testMode) console.log(`Tick!\nGame data:\ngameInstanceName: ${gameInstanceName}\nmapW: ${mapW}\nmapH: ${mapH}\ntickInterval: ${tickInterval}\nGame started: ${getAttr(game, "started")}\nGame playing: ${getAttr(game, "playing")}`);}, tickInterval);
@@ -68,6 +69,8 @@ pauseGame.onclick = async () => {
     pauseGame.innerText = getAttr(game, "playing") ? "Pause game" : "Unpause game";
 
     handleResponse(await toggle());
+
+    emergencyBreak = true;
 
     /* THIS IS FOR TESTING PURPOSES ONLY, IT WILL BE REMOVED IN THE FINAL RELEASE */
     if(testMode) console.log(`Game paused!\nGame data:\ngameInstanceName: ${gameInstanceName}\nmapW: ${mapW}\nmapH: ${mapH}\ntickInterval: ${tickInterval}\nGame started: ${getAttr(game, "started")}\nGame playing: ${getAttr(game, "playing")}`);
@@ -95,7 +98,7 @@ function parseMap(mapString){
 
 /* This doesn't do anything yet, just console.logs the response, later it will actually handle the response it gets */
 async function handleResponse(response){
-    //if(testMode) console.log(`Allah said: ${response}`)
+    if(testMode) console.log(`Server response: ${response}`)
 
     /* THIS IS FOR TESTING PURPOSES ONLY, IT WILL BE REMOVED IN THE FINAL RELEASE */
     let exampleString = "startOfExample\n\nGRASSMAP\n2;3;3;3;2;3;3;3;1;2;3;3;1\n2;3;3;3;3;2;2;3;3;2;3;3;3\n3;1;2;3;3;3;2;2;3;3;3;2;2\n3;3;2;3;3;3;2;1;3;2;3;3;3\n3;3;3;3;1;2;3;3;3;3;1;3;2\n2;3;1;1;2;3;3;3;3;3;3;3;3\n3;3;3;3;1;1;3;3;2;3;3;2;1\n\nMOBMAP\nFOX@-@5 2\nFOX@-@3 6\nFOX@-@7 9\nFOX@-@10 5\nRABBIT@-@2 2\nRABBIT@-@7 7\nRABBIT@-@9 6\nRABBIT@-@2 6\n\nendOfExample";
@@ -117,6 +120,7 @@ const entityEmojis = {
 
 /* This function "draws" the map */
 function drawMap(mapDict){
+    if(emergencyBreak) return clearInterval(tickSetInterval);
     game.innerHTML = "";
     for (let i = 0; i < mapDict.grassMap.length; i++) {
         let blocks = document.createElement("div")

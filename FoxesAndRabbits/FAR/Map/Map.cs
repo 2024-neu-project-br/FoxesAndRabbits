@@ -49,7 +49,7 @@ namespace FoxesAndRabbits.FAR {
             x = GetWrappedX(x);
             y = GetWrappedY(y);
 
-            foreach (Entity e in entities) if (e.X == x && e.Y == y) return e;
+            foreach (Entity e in entities.ToList()) if (e.X == x && e.Y == y) return e;
             return null;
 
         }
@@ -128,7 +128,7 @@ namespace FoxesAndRabbits.FAR {
             }
             grassTick++;
 
-            foreach (Entity e in entities) e.Update();
+            foreach (Entity e in entities.ToList()) e.Update();
 
 
         }
@@ -144,7 +144,7 @@ namespace FoxesAndRabbits.FAR {
             entitiesToBeAdded.Clear();
             entitiesToBeRemoved.Clear();
 
-            foreach (Entity e in entities) e.Tick();
+            foreach (Entity e in entities.ToList()) e.Tick();
 
         }
 

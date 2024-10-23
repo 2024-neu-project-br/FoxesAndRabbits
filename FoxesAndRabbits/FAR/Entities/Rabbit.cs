@@ -56,16 +56,19 @@ namespace FoxesAndRabbits.FAR.Entities {
             int maxGrassCellValue = map.grassMap[maxGrassCell[0], maxGrassCell[1]];
 
             List<int[]> bestGrassCellsInRange = [.. emptyCellsInRange.Where(cell => map.grassMap[cell[0], cell[1]] == maxGrassCellValue)];
-            choice = bestGrassCellsInRange[instance.random.Next(bestGrassCellsInRange.Count)];
+            choice = bestGrassCellsInRange.Count > 0 ? bestGrassCellsInRange[instance.random.Next(bestGrassCellsInRange.Count)] : null;
 
-            X = choice[0];
-            Y = choice[1]; // this here could bug out, modify after testing Zraphy
+            if (choice != null)
+            {
+                X = choice[0];
+                Y = choice[1]; // it indeed bugged out, but my "solution" might not even help.. :<
+            }
 
         }
 
         private void Eat(int[] choice) {
 
-            if (choice[0] == X && choice[1] == Y) return;
+            if (choice == null || choice[0] == X && choice[1] == Y) return;
 
             map.grassMapNew[choice[0], choice[1]] = 1;
 
