@@ -161,19 +161,16 @@ dialog input, dialog button{
 }
 
 @media screen and (max-height: 750px) and (max-width: 650px) {
-    #inputs{
-        height: 50% !important;
-    }
-
-    #game{
-        height: 50% !important;
-    }
-
     #game .line .grass-1,
     #game .line .grass-2,
     #game .line .grass-3{
-        width: calc(40vw / var(--mapW));
+        width: calc(75vw / var(--mapW));
         height: calc(40vh / var(--mapH));
+    }
+
+    #inputs button{
+        font-size: 75%;
+        padding: .5em;
     }
 }
 
@@ -199,7 +196,22 @@ dialog input, dialog button{
     }
 }
 
-@media screen and (max-height: 500px), (max-width: 200px) {
+@media screen and (max-height: 500px) {
+    dialog input, dialog button{
+        font-size: 75%;
+        padding: .5em;
+    }
+
+    #inputs{
+        height: 50% !important;
+    }
+
+    #game{
+        height: 50% !important;
+    }
+}
+
+@media screen and (max-height: 325px), (max-width: 200px) {
     #inputs, #game, dialog{
         display: none !important;
     }
