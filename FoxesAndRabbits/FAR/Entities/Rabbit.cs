@@ -25,34 +25,11 @@ namespace FoxesAndRabbits.FAR.Entities {
 
         public override void IndividualUpdate() {
 
-            /*
-            
-                BUG: two entities can simultaneously choose to go on the same cell at once, and since the action isnt being taken until the Tick() function runs,
-                the future location of each entity remains unknown unless a special variable denoting the subsequent is not utilised
-                (my lazyass is probably too lazy to do that, maybe i will do it if i feel like)
-            
-                HOWEVER: this can lead to other bugs where the information of a select entity is not properly overhauled by the instance
-                and therefore either gets stuck in the previous state or gets corrupted
-
-                (i will actually fix it cus my dumbass aint playing with this bih, sooo...)
-                SOLUTION: the presence of a matrix denoting the occupancy of each cell may bring a proper solution to the problem,
-                where updating the current position of each entity would easily take use of the matrix and check if any other entity has already claimed the spot
-                this check should be implemented in the Update() function of the Entity.cs class
-                if a select entitys future position would conflict with the already selected coordinates of anothers, the entity in question should keep
-                its momentary position and shall try again in the next iteration
-
-                ينشاللله يا الله اكبر 🙏🙏🙏
-
-
-            */
-
-            Eat();
             Mate();
-            Move();
+            Move(out int[] choice);
+            Eat(choice);
 
         }
-
-        private void Eat() {}
 
         private void Mate() => GenericMate((mate, childPos) => {
 
@@ -64,9 +41,40 @@ namespace FoxesAndRabbits.FAR.Entities {
 
         });
 
-        private void Move() {
+        private void Move(out int[] choice) {
 
-            List<int[]> grassCellsAround = [.. map.GetEmptyCellsAround(X, Y).OrderBy(x => map.grassMap[x[0], x[1]])]; // this is based
+            List<int[]> emptyCellsInRange = map.GetEmptyCellsAround(X, Y);
+            if (emptyCellsInRange.Count == 0) {
+
+                hasDied = true; // dies cus of overcramming
+                choice = [X, Y];
+                return;
+
+            }
+
+            int[] maxGrassCell = emptyCellsInRange.MaxBy(cell => map.grassMap[cell[0], cell[1]])!;
+            int maxGrassCellValue = map.grassMap[maxGrassCell[0], maxGrassCell[1]];
+
+            List<int[]> bestGrassCellsInRange = [.. emptyCellsInRange.Where(cell => map.grassMap[cell[0], cell[1]] == maxGrassCellValue)];
+            choice = bestGrassCellsInRange[instance.random.Next(bestGrassCellsInRange.Count)];
+
+            X = choice[0];
+            Y = choice[1]; // this here could bug out, modify after testing Zraphy
+
+        }
+
+        private void Eat(int[] choice) {
+
+            map.grassMapNew[choice[0], choice[1]] = 1;
+
+            if (isDiseased) {
+
+                foodLevelNew = foodLevel + 1;
+                return;
+
+            }
+
+            foodLevelNew = foodLevel + map.grassMap[choice[0], choice[1]] - 1;
 
         }
 

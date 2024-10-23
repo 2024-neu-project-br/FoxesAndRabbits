@@ -14,7 +14,7 @@ namespace FoxesAndRabbits.FAR {
         public int WIDTH, HEIGHT;
 
         public int[,] grassMap, grassMapNew;
-        public bool[,] futureOccupancyMap;
+        public Entity?[,] futureOccupancyMap;
 
         public List<Entity> entities = new List<Entity>(),
                             entitiesToBeAdded = new List<Entity>(),
@@ -28,11 +28,11 @@ namespace FoxesAndRabbits.FAR {
             HEIGHT = height;
 
             grassMap = new int[width, height];
-            futureOccupancyMap = new bool[width, height];
+            futureOccupancyMap = new Entity[width, height];
 
             for (int x = 0; x < width; x++) for (int y = 0; y < height; y++) {
                 
-                futureOccupancyMap[x, y] = false;
+                futureOccupancyMap[x, y] = null;
                 grassMap[x, y] = 3;
 
             }
@@ -129,7 +129,7 @@ namespace FoxesAndRabbits.FAR {
         public void Tick() {
 
             grassMap = grassMapNew;
-            for (int x = 0; x < WIDTH; x++) for (int y = 0; y < HEIGHT; y++) futureOccupancyMap[x, y] = false;
+            for (int x = 0; x < WIDTH; x++) for (int y = 0; y < HEIGHT; y++) futureOccupancyMap[x, y] = null;
 
             entities.AddRange(entitiesToBeAdded);
             foreach (Entity e in entitiesToBeRemoved) entities.Remove(e);

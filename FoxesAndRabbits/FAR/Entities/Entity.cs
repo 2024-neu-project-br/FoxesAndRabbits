@@ -73,12 +73,11 @@ namespace FoxesAndRabbits.FAR {
             mate.hasMated = true;
 
             int[] childPos = map.GetRandomEmptyCellAround(X, Y);
-            map.futureOccupancyMap[childPos[0], childPos[1]] = true;
-            // this should never run lmao but im keeping it here (this statement would never return true because GetRandomEmptyCellAround(X, Y) has to always return a new cell due to the several previous checks for emptiness around the two pairs)
-            if (childPos[0] == X && childPos[1] == Y) hasDied = true;
 
             Entity child = l(mate, childPos);
             map.AddNewEntity(child);
+
+            map.futureOccupancyMap[childPos[0], childPos[1]] = child;
 
         }
 
@@ -93,7 +92,7 @@ namespace FoxesAndRabbits.FAR {
             if (foodLevelNew <= 0 || hasDied) map.RemoveEntity(this);
 
             // this check here is only a failproof check, each entity should check whether if their future position is valid or not for themselves
-            if (map.futureOccupancyMap[newX, newY]) {
+            if (map.futureOccupancyMap[newX, newY] != null && map.futureOccupancyMap[newX, newY] != this) {
 
                 newX = x;
                 newY = y;
@@ -102,7 +101,7 @@ namespace FoxesAndRabbits.FAR {
 
             }
 
-            map.futureOccupancyMap[newX, newY] = true; // balls
+            map.futureOccupancyMap[newX, newY] = this; // balls
 
         }
 
