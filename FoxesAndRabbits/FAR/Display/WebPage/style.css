@@ -4,6 +4,12 @@
     --input-bg: #bbb;
 }
 
+*{
+    font-family: "JetBrains Mono", monospace;
+    font-optical-sizing: auto;
+    font-style: normal;
+}
+
 html, body, main{
     background-color: var(--game-bg);
     width: 100vw;
@@ -74,7 +80,6 @@ dialog input, #inputs button, dialog button{
 
 dialog h1{
     color: var(--input-bg);
-    font-family: sans-serif;
 }
 
 dialog input, dialog button{
