@@ -31,7 +31,7 @@ namespace FoxesAndRabbits.FAR.Entities {
                 femaleCalling = instance.random.NextDouble() > 0.4;
                 if (!femaleCalling) {
 
-                    List<Entity> hornyFoxesNearby = map.GetEntitiesByTypeAround(X, Y, 5, TYPE);
+                    List<Entity> hornyFoxesNearby = [.. map.GetEntitiesByTypeAround(X, Y, 5, TYPE).Where(e => ((Fox) e).femaleCalling)];
                     if (hornyFoxesNearby.Count < 0) {
 
                         Fox mate = (Fox) hornyFoxesNearby[instance.random.Next(hornyFoxesNearby.Count)];
