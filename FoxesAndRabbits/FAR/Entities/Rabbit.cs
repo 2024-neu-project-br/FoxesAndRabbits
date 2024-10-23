@@ -72,7 +72,7 @@ namespace FoxesAndRabbits.FAR.Entities {
 
             if (isDiseased) {
 
-                foodLevelNew = foodLevelAtChoice <= 0 ? 0 : 1;
+                foodLevelNew = foodLevelAtChoice <= 1 ? 0 : 1;
                 return;
 
             }
