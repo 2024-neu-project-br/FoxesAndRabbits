@@ -71,6 +71,7 @@ namespace FoxesAndRabbits.FAR {
             if (mate.hasMated) return;
 
             mate.hasMated = true;
+            hasMated = true;
 
             int[] childPos = map.GetRandomEmptyCellAround(X, Y);
 
