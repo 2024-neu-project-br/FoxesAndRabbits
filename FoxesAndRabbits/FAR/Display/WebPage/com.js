@@ -101,7 +101,7 @@ async function command(command) {
     return await fetch("http://127.0.0.1:4060/command", {
 
         method: "POST",
-        body: `name=${currentInstance}\ncommand=${command}`
+        body: `name=${currentInstance}\ncommand=${command}\ndummy=yes`
 
     }).then(async (response) => {
 
