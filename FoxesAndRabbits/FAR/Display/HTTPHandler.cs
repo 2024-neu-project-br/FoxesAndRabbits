@@ -8,6 +8,7 @@ using System.Security.Cryptography;
 using System.Text;
 using System.Threading.Tasks;
 using FoxesAndRabbits.FAR.Display.HTTP;
+using FoxesAndRabbits.FAR.Entities;
 using FoxesAndRabbits.FAR.Game;
 
 namespace FoxesAndRabbits.FAR.Display {
@@ -161,6 +162,85 @@ namespace FoxesAndRabbits.FAR.Display {
                 con.Send(response.Build());
 
                 return;
+
+            }
+
+            if (rq.PATH == "/command") {
+
+                GameInstance instance = Game.Game.GetInstance(name);
+
+                if (instance == null) {
+
+                    response = new Response(400, "Broooo, can you stop sending requests to non-existent instances? Please???");
+                    con.Send(response.Build());
+
+                    return;
+
+                }
+
+                string command = paramz["command"];
+                string[] scommand = command.Split(" ");
+
+                int x = int.Parse(scommand[2]), y = int.Parse(scommand[3]);
+
+                if (scommand[0] == "-E") {
+
+                    Entity? entity = instance.map.GetEntityAt(x, y);
+
+                    if (entity == null) {
+
+                        response = new Response(404, "The entity you're trying to remove does NOT exist. Please get real.");
+                        con.Send(response.Build());
+
+                        return;
+
+                    }
+
+                    if (entity.typeString != scommand[1]) {
+
+                        response = new Response(403, "The entity you're trying to remove is not of the type that you've specified. Boo hoo.");
+                        con.Send(response.Build());
+
+                        return;
+
+                    }
+
+                    instance.map.RemoveEntity(entity);
+                    
+                    response = new Response(200, "GG");
+                    con.Send(response.Build());
+
+                    return;
+
+                }
+
+                if (scommand[0] == "+E") {
+
+                    Entity? entity = scommand[1] switch {
+
+                        "FOX" => new Fox(instance, [x, y]),
+                        "RABBIT" => new Rabbit(instance, [x, y], 0.1),
+                        _ => null
+
+                    };
+
+                    if (entity == null) {
+
+                        response = new Response(400, "Hello boyki, I think you might've messed up something. Please, fix it. Danke Schön!");
+                        con.Send(response.Build());
+
+                        return;
+
+                    }
+
+                    instance.map.AddNewEntity(entity);
+
+                    response = new Response(200, "Cool.");
+                    con.Send(response.Build());
+
+                    return;
+
+                }
 
             }
 
