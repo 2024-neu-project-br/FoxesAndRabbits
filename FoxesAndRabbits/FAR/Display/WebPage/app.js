@@ -28,7 +28,8 @@ const newGameToggle = document.getElementById("newGameToggle");
 let tickSetInterval;
 
 // There's no instance yet, so you can't do much ¯\_(ツ)_/¯
-[pauseGame, addFox, addRabbit].forEach(element => element.toggleAttribute("disabled"));
+//[pauseGame, addFox, addRabbit].forEach(element => element.toggleAttribute("disabled")); It used to look like this originally
+pauseGame.toggleAttribute("disabled");
 
 newGameToggle.onclick = () => {
     newGameDialog.showModal()
@@ -37,7 +38,8 @@ newGameToggle.onclick = () => {
 newGame.onclick = async () => {
     if(mapW >= 5 && mapH >= 5 && mapW <= 75 && mapH <= 75){
         // Checks if these buttons are disabled or not, enables them if yes
-        [pauseGame, addFox, addRabbit].forEach(element => {if(getAttr(element, "disabled")) element.removeAttribute("disabled");});
+        //[pauseGame, addFox, addRabbit].forEach(element => {if(getAttr(element, "disabled")) element.removeAttribute("disabled");});
+        if(getAttr(pauseGame, "disabled")) pauseGame.removeAttribute("disabled");
     
         // Set CSS variables
         root.style.setProperty("--mapW", mapW);
@@ -108,7 +110,8 @@ pauseGame.onclick = async () => {
     }
 
     // Updating the buttons
-    [newGameToggle, addFox, addRabbit].forEach(element => element.toggleAttribute("disabled"))
+    //[newGameToggle, addFox, addRabbit].forEach(element => element.toggleAttribute("disabled"))
+    newGameToggle.toggleAttribute("disabled")
     pauseGame.innerText = getAttr(game, "playing") ? "Pause game" : "Unpause game";
 
     //handleResponse(await toggle());
