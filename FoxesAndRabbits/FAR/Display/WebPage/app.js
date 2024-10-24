@@ -130,8 +130,17 @@ pauseGame.onclick = async () => {
 }
 
 // Spawns an entity on the map upon clicking the button
-addFox.onclick = () => handleResponse(command("+E")/* Fox */)
-addRabbit.onclick = () => handleResponse(command("+E")/* Rabbit */)
+addFox.onclick = () => {
+    let x = prompt("X position of Fox:");
+    let y = prompt("Y position of Fox:");
+    handleResponse(command(`+E FOX ${x} ${y}`))
+}
+
+addRabbit.onclick = () => {
+    let x = prompt("X position of Rabbit:");
+    let y = prompt("Y position of Rabbit:");
+    handleResponse(command(`+E RABBIT ${x} ${y}`))
+}
 
 /* This function just helps shortening the code a bit */
 getAttr = (element, attribute) => element.attributes.getNamedItem(attribute) != null;
