@@ -7,3 +7,5 @@ Console.WriteLine(a.Length);
 Console.WriteLine("Hello, World!");
 
 HTTPServer server = new(IPAddress.Loopback, 4060);
+
+// bruh theres nothing in here lmao

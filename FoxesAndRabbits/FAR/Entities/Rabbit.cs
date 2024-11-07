@@ -15,7 +15,7 @@ namespace FoxesAndRabbits.FAR.Entities {
             typeString = "RABBIT";
             maxFoodLevel = 5;
             foodLevel = 1;
-            foodLevelNew = foodLevel; // huh? (this is probably some initialization stuff, im not entirely sure why im adding this, skibidi)
+            foodLevelNew = foodLevel; // huh? (this is probably some initialization stuff, im not entirely sure why im adding this)
 
             isDiseased = instance.random.NextDouble() < diseaseProbability;
 

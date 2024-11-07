@@ -37,7 +37,7 @@ namespace FoxesAndRabbits.FAR {
 
             set {
 
-                if (value > maxFoodLevel) fln = maxFoodLevel; // this motherfucker
+                if (value > maxFoodLevel) fln = maxFoodLevel;
                 else fln = value;
 
             }
@@ -102,7 +102,7 @@ namespace FoxesAndRabbits.FAR {
 
             }
 
-            map.futureOccupancyMap[newX, newY] = this; // balls
+            map.futureOccupancyMap[newX, newY] = this;
 
         }
 

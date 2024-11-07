@@ -23,7 +23,7 @@ namespace FoxesAndRabbits.FAR.Game {
             this.width = width;
             this.height = height;
 
-            this.random = new Random(); // please reference to this through the whole instance, dont use locally created Random() instances :pray:
+            this.random = new Random(); // please reference to this throughout the whole instance, dont use locally created Random() instances :pray:
 
             map = new Map(this, width, height);
             if (!isMapBlank) InitRandom();
@@ -58,8 +58,6 @@ namespace FoxesAndRabbits.FAR.Game {
 
             state += "\nMOBMAP\n";
             foreach (Entity e in map.entities) state += e.typeString + "@-@" + e.X + " " + e.Y + "@-@" + e.foodLevel + "\n";
-
-            //Console.WriteLine("creating new bitch:\n" + state);
 
             return state;
 

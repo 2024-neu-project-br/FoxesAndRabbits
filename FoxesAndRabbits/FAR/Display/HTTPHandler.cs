@@ -66,7 +66,7 @@ namespace FoxesAndRabbits.FAR.Display {
             foreach (string p in sparamz) {
 
                 string[] sparam = p.Split("=");
-                paramz.Add(sparam[0], sparam[1]); // this is not foolproof, gyatt damn
+                paramz.Add(sparam[0], sparam[1]); // this is not foolproof
 
             }
 
@@ -104,7 +104,7 @@ namespace FoxesAndRabbits.FAR.Display {
 
                 } catch (Exception) {
 
-                    response = new Response(400, "You seriously fucked up something.");
+                    response = new Response(400, "You seriously messed up something.");
                     con.Send(response.Build());
 
                     return;
@@ -126,7 +126,7 @@ namespace FoxesAndRabbits.FAR.Display {
                 GameInstance instance = Game.Game.GetInstance(name);
                 if (instance == null) {
 
-                    response = new Response(400, "This instance doesn't exist you dumbass.");
+                    response = new Response(400, "This instance doesn't exist.");
                     con.Send(response.Build());
 
                     return;
@@ -148,7 +148,7 @@ namespace FoxesAndRabbits.FAR.Display {
 
                 if (instance == null) {
 
-                    response = new Response(400, "WTF?");
+                    response = new Response(400, "This instance doesn't exist.");
                     con.Send(response.Build());
 
                     return;
@@ -254,7 +254,7 @@ namespace FoxesAndRabbits.FAR.Display {
             
             */
 
-            response = new Response(404, "You're a dumb fuck.");
+            response = new Response(404, "WTF?");
             con.Send(response.Build());
 
         }
@@ -262,7 +262,7 @@ namespace FoxesAndRabbits.FAR.Display {
         public void Debug(Request rq) {
 
             Console.WriteLine(rq.headerString + "\n\n" + rq.BODY);
-            byte[] response = new Response(200, "w skibidi rizz ohio sigma gyatt").Build();
+            byte[] response = new Response(200, "huh").Build();
             con.Send(response);
             con.Close();
 

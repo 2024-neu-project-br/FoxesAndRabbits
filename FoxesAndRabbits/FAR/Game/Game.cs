@@ -16,7 +16,7 @@ namespace FoxesAndRabbits.FAR.Game {
         public static GameInstance GetInstance(string name) {
 
             foreach (GameInstance i in instances) if (i.name == name) return i;
-#pragma warning disable CS8603 // Possible null reference return. AKA = shut the fuck up
+#pragma warning disable CS8603 // Possible null reference return. AKA = stfu (i shouldve used a nullable, smh)
             return null;
 #pragma warning restore CS8603 // Possible null reference return.
 

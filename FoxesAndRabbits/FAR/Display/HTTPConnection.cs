@@ -29,13 +29,10 @@ namespace FoxesAndRabbits.FAR.Display {
 
             while (!killed) {
 
-                //Console.WriteLine("Buffer size: " + socket.ReceiveBufferSize);
-
-                byte[] data = new byte[socket.ReceiveBufferSize]; // go fuck yourself
+                byte[] data = new byte[socket.ReceiveBufferSize];
                 int bytesReceived = socket.Receive(data);
 
                 Request rq = new(data);
-                //Console.WriteLine(rq.headerString);
                 handler.Handle(rq);
 
             }

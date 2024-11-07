@@ -18,7 +18,7 @@ namespace FoxesAndRabbits.FAR.Entities {
             typeString = "FOX";
             maxFoodLevel = 10;
             foodLevel = 10; // set to this number for various reasons
-            foodLevelNew = foodLevel; // huh? (this is probably some initialization stuff, im not entirely sure why im adding this, skibidi)
+            foodLevelNew = foodLevel; // huh? (this is probably some initialization stuff, im not entirely sure why im adding this)
 
         }
 
@@ -106,7 +106,7 @@ namespace FoxesAndRabbits.FAR.Entities {
 
         private void Move(int[] pos) {
 
-            X = pos[0]; // if two foxes choose the same rabbit they can both devour the same one with the current state of the simulation, im too lazy to fix this
+            X = pos[0]; // if two foxes choose the same rabbit they can both devour the same one with the current state of the simulation, this is marginal and i cant be bothered to fix it
             Y = pos[1];
 
         }
